@@ -5,11 +5,11 @@ import { useStore } from '../data/store'
 import { usePrefs } from '../lib/prefs'
 import { roomView, invoiceStatus, type RoomView } from '../domain/billing'
 import type { ExpenseCategory, Invoice, PayMethod } from '../domain/types'
-import { fmtDate, monthName } from '../lib/dates'
+import { addDays, fmtDate, monthName } from '../lib/dates'
 import { fillTemplate, initials, parseRupiah, rp } from '../lib/format'
 import { openWhatsApp } from '../lib/wa'
 import { roomChip } from '../lib/labels'
-import { Choices, Sheet, useToast } from './ui'
+import { Choices, Segmented, Sheet, useToast } from './ui'
 
 type SheetState =
   | { kind: 'pay'; invoiceId: string }
@@ -169,24 +169,40 @@ function RoomSheet({ roomId, onClose, open }: { roomId: string; onClose: () => v
 }
 
 function TenantSheet({ roomId, onClose }: { roomId?: string; onClose: () => void }) {
-  const { t } = usePrefs()
+  const { t, lang } = usePrefs()
   const toast = useToast()
   const { data, today, addTenant } = useStore()
-  const views = data.rooms.map((r) => roomView(data, r, today))
-  const free = views.filter((v) => v.key === 'empty' && v.room.rentMode !== 'daily').map((v) => v.room)
+  // Kamar yang bisa disewa bulanan & belum ada penghuni (kamar yang sedang dipakai homestay tetap boleh dipilih).
+  const free = data.rooms
+    .filter((r) => r.rentMode !== 'daily' && !data.leases.some((l) => l.roomId === r.id && !l.endDate))
+    .sort((a, b) => a.code.localeCompare(b.code))
+  /** Tanggal paling awal kamar benar-benar kosong (setelah tamu homestay & perbaikan). */
+  const earliestFree = (roomId0: string): string => {
+    let d = today
+    const r = data.rooms.find((x) => x.id === roomId0)
+    if (r?.repairUntil && r.repairUntil >= d) d = addDays(r.repairUntil, 1)
+    for (const b of data.bookings.filter((x) => x.roomId === roomId0 && x.status !== 'cancelled' && x.status !== 'out').sort((x, y) => x.checkIn.localeCompare(y.checkIn)))
+      if (b.checkIn <= d && b.checkOut > d) d = b.checkOut
+    return d
+  }
   const [room, setRoom] = useState(roomId ?? free[0]?.id ?? '')
   const sel = data.rooms.find((r) => r.id === room)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [start, setStart] = useState(today)
+  const [start, setStart] = useState(() => earliestFree(roomId ?? free[0]?.id ?? ''))
   const [rentText, setRentText] = useState(rp(sel?.basePrice ?? 0))
-  const valid = name.trim().length > 1 && phone.replace(/\D/g, '').length >= 9 && !!sel
+  const [depositText, setDepositText] = useState(rp(sel?.basePrice ?? 0))
+  const [paidNow, setPaidNow] = useState<'paid' | 'unpaid'>('paid')
+  const [method, setMethod] = useState<PayMethod>('transfer')
+  const clash = data.bookings.find((b) => b.roomId === room && b.status !== 'cancelled' && b.status !== 'out' && b.checkOut > start)
+  const repairBlock = !!sel?.repairUntil && sel.repairUntil >= start
+  const valid = name.trim().length > 1 && phone.replace(/\D/g, '').length >= 9 && !!sel && parseRupiah(rentText) > 0 && !clash && !repairBlock
   const save = () => {
     if (!sel) return
     const rent = parseRupiah(rentText)
-    addTenant({ name, phone, roomId: sel.id, startDate: start, rent, deposit: rent })
+    addTenant({ name, phone, roomId: sel.id, startDate: start, rent, deposit: parseRupiah(depositText), firstPayment: paidNow === 'paid' ? { method } : null })
     onClose()
-    toast(t('tenant.saved'))
+    toast(paidNow === 'paid' ? t('tenant.savedPaid', { name: name.trim().split(' ')[0] }) : t('tenant.savedUnpaid', { date: fmtDate(start, lang) }))
   }
   return (
     <Sheet open onClose={onClose} label={t('tenant.new')}>
@@ -197,11 +213,25 @@ function TenantSheet({ roomId, onClose }: { roomId?: string; onClose: () => void
           <label className="field">{t('tenant.phone')}<input type="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="08xx-xxxx-xxxx" /></label>
           <div className="stack-lg">
             <span className="field">{t('tenant.room')}</span>
-            <Choices value={room} onChange={(id) => { setRoom(id); const r = data.rooms.find((x) => x.id === id); if (r) setRentText(rp(r.basePrice)) }} options={free.map((r) => ({ value: r.id, label: `${r.code} · ${rp(r.basePrice)}` }))} />
+            <Choices value={room} onChange={(id) => { setRoom(id); setStart(earliestFree(id)); const r = data.rooms.find((x) => x.id === id); if (r) { setRentText(rp(r.basePrice)); setDepositText(rp(r.basePrice)) } }} options={free.map((r) => ({ value: r.id, label: `${r.code} · ${rp(r.basePrice)}` }))} />
           </div>
           <div className="grid2">
             <label className="field">{t('tenant.start')}<input type="date" value={start} onChange={(e) => setStart(e.target.value)} /></label>
             <label className="field">{t('tenant.rent')}<input inputMode="numeric" value={rentText} onChange={(e) => setRentText(rp(parseRupiah(e.target.value)))} /></label>
+          </div>
+          {clash && <div className="hint warn">{t('tenant.clash', { name: clash.guestName, from: fmtDate(clash.checkIn, lang), to: fmtDate(clash.checkOut, lang) })}</div>}
+          {repairBlock && sel && <div className="hint warn">{t('tenant.repair', { date: fmtDate(addDays(sel.repairUntil!, 1), lang) })}</div>}
+          <label className="field">{t('tenant.deposit')}<input inputMode="numeric" value={depositText} onChange={(e) => setDepositText(rp(parseRupiah(e.target.value)))} /><span className="sub small" style={{ fontWeight: 500 }}>{t('tenant.depositNote')}</span></label>
+          <div className="stack-lg" style={{ padding: 14, borderRadius: 16, background: 'var(--sunken)' }}>
+            <span className="title">{t('tenant.firstPay')}</span>
+            <div className="kv"><span>{t('tenant.rent')}</span><span className="num">{rp(parseRupiah(rentText))}</span></div>
+            <div className="kv"><span>{t('tenant.deposit')}</span><span className="num">{rp(parseRupiah(depositText))}</span></div>
+            <div className="divider" />
+            <div className="kv"><span style={{ color: 'var(--ink)', fontWeight: 800 }}>{t('tenant.totalIn')}</span><span className="num" style={{ fontSize: 17 }}>{rp(parseRupiah(rentText) + parseRupiah(depositText))}</span></div>
+            <Segmented value={paidNow} onChange={setPaidNow} options={[{ value: 'paid', label: t('tenant.paidNow') }, { value: 'unpaid', label: t('tenant.notYet') }]} />
+            {paidNow === 'paid'
+              ? <Choices value={method} onChange={setMethod} options={(['cash', 'transfer', 'qris'] as PayMethod[]).map((m) => ({ value: m, label: t(`method.${m}`) }))} />
+              : <span className="sub small">{t('tenant.unpaidNote', { date: fmtDate(start, lang) })}</span>}
           </div>
           <button className="btn primary block" disabled={!valid} onClick={save}>{t('common.save')}</button>
         </>

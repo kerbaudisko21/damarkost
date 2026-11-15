@@ -114,7 +114,7 @@ export function makeSeed(today = todayISO()): AppData {
   const bookings: Booking[] = [
     B('b1', '103', 'Dimas Saputra', '0813-5566-7788', 2, -1, 1, 'traveloka', 'paid', 'in'),
     B('b2', '203', 'Laras Wibowo', '0857-1122-3344', 1, 3, 5, 'airbnb', 'paid', 'booked'),
-    B('b3', '103', 'Keluarga Hendra', '0812-9988-7766', 3, 4, 7, 'direct', 'dp', 'booked'),
+    B('b3', '203', 'Keluarga Hendra', '0812-9988-7766', 3, 5, 8, 'direct', 'dp', 'booked'),
     B('b4', '203', 'Arif Nugraha', '0896-4455-1122', 2, 8, 10, 'booking', 'unpaid', 'booked'),
   ]
 

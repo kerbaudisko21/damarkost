@@ -33,6 +33,8 @@ function TabBar() {
   )
 }
 
+const TAB_ROUTES = ['/', '/kamar', '/tagihan', '/lainnya']
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
@@ -51,19 +53,20 @@ function Shell() {
           <ScrollToTop />
           <div className="page" key={pathname}>
           <Routes>
-            <Route path="/" element={<><HomeScreen /><TabBar /></>} />
-            <Route path="/kamar" element={<><RoomsScreen /><TabBar /></>} />
-            <Route path="/tagihan" element={<><BillsScreen /><TabBar /></>} />
-            <Route path="/lainnya" element={<><MoreScreen /><TabBar /></>} />
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/kamar" element={<RoomsScreen />} />
+            <Route path="/tagihan" element={<BillsScreen />} />
+            <Route path="/lainnya" element={<MoreScreen />} />
             <Route path="/penghuni" element={<TenantsScreen />} />
             <Route path="/penghuni/:id" element={<ProfileScreen />} />
             <Route path="/homestay" element={<HomestayScreen />} />
             <Route path="/pengeluaran" element={<ExpensesScreen />} />
             <Route path="/laporan" element={<ReportScreen />} />
             <Route path="/pengaturan" element={<SettingsScreen />} />
-            <Route path="*" element={<><HomeScreen /><TabBar /></>} />
+            <Route path="*" element={<HomeScreen />} />
           </Routes>
           </div>
+          {TAB_ROUTES.includes(pathname) && <TabBar />}
         </div>
       </SheetHost>
     </PinGate>

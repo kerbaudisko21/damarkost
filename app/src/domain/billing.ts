@@ -25,6 +25,15 @@ export function firstInvoiceAmount(lease: Lease, settings: Settings, period: str
 }
 
 /**
+ * Tagihan bulan pertama saat penghuni masuk. Kos dibayar di muka → jatuh tempo = tanggal masuk
+ * (mode serentak: tanggal tagih tetap, dengan prorata bila aktif).
+ */
+export function firstInvoice(lease: Lease, settings: Settings, makeId: () => string): Invoice {
+  const period = periodOf(lease.startDate)
+  return { id: makeId(), leaseId: lease.id, period, dueDate: lease.startDate, amount: firstInvoiceAmount(lease, settings, period) }
+}
+
+/**
  * Buat tagihan periode berjalan untuk setiap sewa bulanan yang aktif (idempoten).
  * Di produksi logika ini dijalankan pg_cron di Supabase; di mode demo dipanggil saat aplikasi dibuka.
  */

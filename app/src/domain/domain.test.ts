@@ -139,3 +139,23 @@ describe('data contoh', () => {
     expect(addDays(today, 1)).toBe('2026-11-17')
   })
 })
+
+describe('penghuni baru (bayar di muka)', () => {
+  it('tagihan pertama jatuh tempo di tanggal masuk; prorata hanya mode serentak', async () => {
+    const { firstInvoice } = await import('./billing')
+    const l = lease({ startDate: '2026-11-20', rent: 1500000 })
+    expect(firstInvoice(l, DEFAULT_SETTINGS, () => 'x')).toMatchObject({ period: '2026-11', dueDate: '2026-11-20', amount: 1500000 })
+    const fixed = { ...DEFAULT_SETTINGS, billingMode: 'fixed' as const, prorata: true }
+    expect(firstInvoice(l, fixed, () => 'x').amount).toBe(550000) // 11 dari 30 hari
+  })
+  it('tagihan pertama yang sudah dibayar tidak muncul sebagai tunggakan & bulan berjalan tidak dobel', () => {
+    const today = '2026-11-16'
+    const d = makeSeed(today)
+    const l = lease({ id: 'lnew', roomId: 'r103', startDate: today, rent: 1500000, dueDay: 16 })
+    const inv: Invoice = { id: 'inew', leaseId: 'lnew', period: '2026-11', dueDate: today, amount: 1500000 }
+    d.leases.push(l); d.invoices.push(inv)
+    d.payments.push({ id: 'pnew', invoiceId: 'inew', amount: 1500000, paidAt: today, method: 'cash' })
+    expect(ensureInvoices(d, today, () => 'dup').filter((i) => i.leaseId === 'lnew')).toHaveLength(0)
+    expect(invoiceStatus(inv, d.payments, today, d.settings).state).toBe('paid')
+  })
+})

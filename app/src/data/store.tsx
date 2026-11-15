@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { get, set } from 'idb-keyval'
 import type { AppData, Booking, Expense, Lease, PayMethod, Room, Settings, Tenant } from '../domain/types'
-import { ensureInvoices } from '../domain/billing'
+import { ensureInvoices, firstInvoice } from '../domain/billing'
 import { findConflict } from '../domain/homestay'
 import { makeSeed } from './seed'
 import { todayISO } from '../lib/dates'
@@ -23,6 +23,8 @@ export interface NewTenantInput {
   job?: string
   hometown?: string
   emergency?: string
+  /** Sudah bayar bulan pertama saat masuk? (kos dibayar di muka) */
+  firstPayment?: { method: PayMethod } | null
 }
 
 export interface NewBookingInput {
@@ -99,7 +101,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         id: uid('l'), tenantId: tenant.id, roomId: input.roomId, startDate: input.startDate, rent: input.rent,
         dueDay: Number(input.startDate.slice(8, 10)), deposit: input.deposit, depositStatus: 'held',
       }
-      return { ...d, tenants: [...d.tenants, tenant], leases: [...d.leases, lease] }
+      // Tagihan bulan pertama langsung dibuat (jatuh tempo = tanggal masuk); bila sudah bayar, langsung lunas.
+      const inv = firstInvoice(lease, d.settings, () => uid('inv'))
+      const payments = input.firstPayment
+        ? [...d.payments, { id: uid('pay'), invoiceId: inv.id, amount: inv.amount, method: input.firstPayment.method, paidAt: input.startDate < today ? input.startDate : today }]
+        : d.payments
+      return { ...d, tenants: [...d.tenants, tenant], leases: [...d.leases, lease], invoices: [...d.invoices, inv], payments }
     }),
     checkout: (leaseId, date, deduction, reason) => update((d) => {
       const lease = d.leases.find((l) => l.id === leaseId)
