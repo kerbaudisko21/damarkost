@@ -48,7 +48,7 @@ export function PinGate({ children }: { children: ReactNode }) {
   const [error, setError] = useState('')
   if (!data.settings.pinEnabled || !data.settings.pinHash || unlocked) return <>{children}</>
   return (
-    <Keypad title={t('pin.hello', { name: data.settings.ownerName })} status={t('pin.enter')} error={error} onComplete={async (pin) => {
+    <Keypad title={data.settings.ownerName ? t('pin.hello', { name: data.settings.ownerName }) : t('home.helloPlain')} status={t('pin.enter')} error={error} onComplete={async (pin) => {
       if ((await hashPin(pin)) === data.settings.pinHash) { sessionStorage.setItem(SESSION_KEY, '1'); setUnlocked(true) } else setError(t('pin.wrong'))
     }} />
   )

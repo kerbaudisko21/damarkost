@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Bell, Pencil } from 'lucide-react'
+import { Bell, LogOut, Pencil } from 'lucide-react'
+import { useAuth } from '../lib/auth'
 import type { DictKey } from '../lib/i18n'
 import { enableNotifications, pushState, type PushResult } from '../lib/push'
 import { useStore } from '../data/store'
@@ -76,7 +77,8 @@ function RoomEditSheet({ roomId, onClose }: { roomId: string; onClose: () => voi
 export default function SettingsScreen() {
   const { t, theme, setTheme, lang, setLang } = usePrefs()
   const toast = useToast()
-  const { data, updateSettings, resetDemo } = useStore()
+  const { data, updateSettings, resetDemo, mode } = useStore()
+  const { session, signOut } = useAuth()
   const s = data.settings
   const [pinSetup, setPinSetup] = useState(false)
   const [editRoom, setEditRoom] = useState<string | null>(null)
@@ -99,6 +101,7 @@ export default function SettingsScreen() {
 
       <section className="card">
         <h2>{t('set.info')}</h2>
+        <label className="field">{t('set.owner')}<input value={s.ownerName} autoComplete="name" onChange={(e) => updateSettings({ ownerName: e.target.value })} /></label>
         <label className="field">{t('set.name')}<input value={s.propertyName} onChange={(e) => updateSettings({ propertyName: e.target.value })} /></label>
         <label className="field">{t('set.bank')}<input value={s.bankAccount} onChange={(e) => updateSettings({ bankAccount: e.target.value })} /></label>
       </section>
@@ -180,11 +183,20 @@ export default function SettingsScreen() {
         </div>
       </section>
 
-      <section className="card">
-        <h2>{t('set.data')}</h2>
-        <span className="sub">{t('common.demo')}</span>
-        <button className="btn danger block" onClick={() => { if (window.confirm(t('set.resetConfirm'))) { resetDemo(); toast(t('set.resetDone')) } }}>{t('set.reset')}</button>
-      </section>
+      {mode === 'cloud' ? (
+        <section className="card">
+          <h2>{t('auth.account')}</h2>
+          <span className="title" style={{ wordBreak: 'break-all' }}>{session?.user.email}</span>
+          <span className="sub">{t('auth.cloud')}</span>
+          <button className="btn danger block" onClick={() => { if (window.confirm(t('auth.signOutConfirm'))) signOut() }}><LogOut size={18} />{t('auth.signOut')}</button>
+        </section>
+      ) : (
+        <section className="card">
+          <h2>{t('set.data')}</h2>
+          <span className="sub">{t('common.demo')}</span>
+          <button className="btn danger block" onClick={() => { if (window.confirm(t('set.resetConfirm'))) { resetDemo(); toast(t('set.resetDone')) } }}>{t('set.reset')}</button>
+        </section>
+      )}
 
       {editRoom && <RoomEditSheet roomId={editRoom} onClose={() => setEditRoom(null)} />}
 

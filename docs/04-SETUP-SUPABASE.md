@@ -21,13 +21,12 @@ Variabel `VITE_*` dibaca saat **build**, jadi harus ada di Vercel juga. Pilih sa
   ```
 > Hati-hati: `vercel env pull` akan **menimpa** `app/.env.local`. Simpan isinya dulu bila sudah diisi manual.
 
-## 2. Jalankan migrasi database
-Dashboard → **SQL Editor** → jalankan isi file berurutan:
-1. `supabase/migrations/20261116000000_init.sql` — tabel, RLS, anti-bentrok, fungsi tagihan, bucket foto.
-2. (setelah langkah 3 & 4) `supabase/migrations/20261116010000_reminders.sql` — langganan push + jadwal cron.
-3. `supabase/migrations/20261116020000_room_label.sql` — ganti tipe Standar/AC dengan keterangan kamar (semua kamar ber-AC).
+## 2. Buat tabel (sekali saja)
+Dashboard → **SQL Editor** → **New query** → tempel **seluruh isi** `supabase/setup-sql-editor.sql` → **Run**.
+Berkas ini gabungan 3 migrasi di `supabase/migrations/` (tabel, RLS, anti-bentrok, fungsi tagihan, bucket foto, langganan push, keterangan kamar).
 
 > Alternatif: Supabase CLI → `supabase link --project-ref <ref>` lalu `supabase db push`.
+> Bila aplikasi menampilkan **"Database belum disiapkan"** setelah login, berarti langkah ini belum dijalankan.
 
 ## 3. Aktifkan ekstensi
 Dashboard → **Database → Extensions**: aktifkan **pg_cron** dan **pg_net**.
@@ -38,6 +37,9 @@ SQL Editor, ganti nilainya sendiri:
 select vault.create_secret('https://<project-ref>.supabase.co', 'project_url');
 select vault.create_secret('<service_role key>', 'service_role_key');
 ```
+
+### 4b. Pasang jadwal cron
+SQL Editor → tempel isi `supabase/cron.sql` → **Run**.
 
 ## 5. Kunci VAPID untuk notifikasi push
 Sudah dibuat (16 Nov 2026) dan disimpan di `.secrets/vapid-keys.txt` (tidak ikut git). Public key sudah ada di `app/.env.local`.
@@ -55,8 +57,11 @@ supabase functions deploy daily-reminders --no-verify-jwt
 (Fungsi memeriksa sendiri header `Authorization: Bearer <service_role>` dari cron.)
 
 ## 7. Buat akun pemilik & matikan pendaftaran
-- **Authentication → Users → Add user**: email + kata sandi pemilik.
-- **Authentication → Providers → Email**: matikan **Allow new users to sign up**.
+- **Authentication → Users → Add user → Create new user**: email + kata sandi pemilik, centang *Auto Confirm User*.
+- **Authentication → Sign In / Providers → Email**: matikan **Allow new users to sign up** (hanya pemilik yang boleh masuk).
+- **Authentication → URL Configuration**: *Site URL* = `https://damarkost.vercel.app`, dan tambahkan `https://damarkost.vercel.app/**` + `http://localhost:5174/**` ke *Redirect URLs* (untuk tautan "Lupa kata sandi").
+
+Saat pertama kali masuk, aplikasi otomatis membuat: pengaturan kos, **9 kamar** (101–104, 201–205, harga Rp0 — atur di **Lainnya → Pengaturan → Kamar**), dan 5 sumber pesanan homestay.
 
 ## Jadwal cron yang aktif
 | Nama | Waktu | Tugas |

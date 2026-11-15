@@ -22,8 +22,11 @@ export function initials(name: string): string {
   return name.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase()
 }
 
-export function uid(prefix = 'id'): string {
-  return `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`
+/** ID unik (UUID, cocok dengan kolom uuid di Supabase). Prefix diabaikan, dipertahankan agar pemanggil lama tetap jalan. */
+export function uid(_prefix = 'id'): string {
+  void _prefix
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => { const r = (Math.random() * 16) | 0; return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16) })
 }
 
 /** Isi template: '{nama}' / '{name}' dst. */

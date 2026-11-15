@@ -46,7 +46,7 @@ export default function HomeScreen() {
       </div>
       <div className="stack">
         <span className="sub" style={{ fontWeight: 600 }}>{fmtLongDay(today, lang)}</span>
-        <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.01em' }}>{t('home.hello', { name: data.settings.ownerName })}</span>
+        <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.01em' }}>{data.settings.ownerName ? t('home.hello', { name: data.settings.ownerName }) : t('home.helloPlain')}</span>
       </div>
 
       <InstallCard dismissible />
