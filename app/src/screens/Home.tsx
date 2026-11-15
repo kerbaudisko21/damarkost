@@ -11,6 +11,7 @@ import { House, Legend } from '../components/House'
 import { LeafDeco, Logo } from '../components/Logo'
 import { useRoomViews, useSheets } from '../components/sheets'
 import { InstallCard } from '../components/install'
+import { stagger } from '../components/Loading'
 import { BellButton } from '../components/Reminders'
 
 
@@ -71,8 +72,8 @@ export default function HomeScreen() {
           <Link to="/tagihan" className="link-btn">{t('common.seeAll')}</Link>
         </div>
         {unpaid.length === 0 && <div className="card" style={{ border: 0, color: 'var(--good)', fontWeight: 700 }}>{t('home.allPaid')}</div>}
-        {unpaid.map((v) => (
-          <div key={v.room.id} className="row" style={{ padding: '10px 10px 10px 12px', borderRadius: 20, background: 'var(--surface)' }}>
+        {unpaid.map((v, i) => (
+          <div key={v.room.id} className="row rise" style={{ ...stagger(i), padding: '10px 10px 10px 12px', borderRadius: 20, background: 'var(--surface)' }}>
             <button className="row grow" style={{ border: 0, background: 'none', padding: 0, textAlign: 'left' }} onClick={() => v.invoice && open({ kind: 'pay', invoiceId: v.invoice.id })}>
               <span className="avatar">{initials(v.tenantName ?? '')}</span>
               <span className="stack grow">
@@ -88,8 +89,8 @@ export default function HomeScreen() {
       {alerts.length > 0 && (
         <section className="stack-lg">
           <h2 className="section-title">{t('home.attention')}</h2>
-          {alerts.map((a) => (
-            <div key={a.title} className="row-btn" style={{ cursor: 'default' }}>
+          {alerts.map((a, i) => (
+            <div key={a.title} className="row-btn rise" style={{ ...stagger(i + 3), cursor: 'default' }}>
               <span className={'chip ' + a.tone} style={{ width: 40, height: 40, borderRadius: 12, padding: 0, justifyContent: 'center' }}>{a.icon}</span>
               <span className="stack"><span className="title">{a.title}</span><span className="sub">{a.sub}</span></span>
             </div>

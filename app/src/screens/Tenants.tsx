@@ -9,6 +9,7 @@ import { initials } from '../lib/format'
 import { roomChip } from '../lib/labels'
 import { Segmented, SubHeader } from '../components/ui'
 import { useSheets } from '../components/sheets'
+import { stagger } from '../components/Loading'
 
 export default function TenantsScreen() {
   const { t, lang } = usePrefs()
@@ -23,13 +24,13 @@ export default function TenantsScreen() {
       <SubHeader title={t('tenants.title')} action={<button className="icon-btn solid" aria-label={t('tenant.new')} onClick={() => open({ kind: 'tenant' })}><UserPlus size={20} /></button>} />
       <Segmented value={tab} onChange={setTab} options={[{ value: 'active', label: t('tenants.active', { n: active.length }) }, { value: 'archive', label: t('tenants.archive', { n: archived.length }) }]} />
       <div className="stack-lg">
-        {list.map((tn) => {
+        {list.map((tn, i) => {
           const lease = data.leases.filter((l) => l.tenantId === tn.id).sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
           const room = data.rooms.find((r) => r.id === lease?.roomId)
           const v = room && !tn.archivedAt ? roomView(data, room, today) : undefined
           const incomplete = !tn.emergency
           return (
-            <Link key={tn.id} to={`/penghuni/${tn.id}`} className="row-btn">
+            <Link key={tn.id} to={`/penghuni/${tn.id}`} className="row-btn rise" style={stagger(i)}>
               <span className="avatar round" style={tn.archivedAt ? { background: 'var(--sunken)', color: 'var(--ink2)' } : undefined}>{initials(tn.name)}</span>
               <span className="stack grow">
                 <span className="title">{tn.name}</span>

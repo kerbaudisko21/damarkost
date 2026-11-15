@@ -5,6 +5,7 @@ import { roomChip } from '../lib/labels'
 import { House, Legend } from '../components/House'
 import { LeafDeco } from '../components/Logo'
 import { useRoomViews, useSheets } from '../components/sheets'
+import { stagger } from '../components/Loading'
 
 export default function RoomsScreen() {
   const { t } = usePrefs()
@@ -25,11 +26,11 @@ export default function RoomsScreen() {
         <Legend keys={['paid', 'due', 'late', 'homestay', 'empty', 'repair']} />
       </section>
       <div className="stack-lg">
-        {[...views].sort((a, b) => a.room.code.localeCompare(b.room.code)).map((v) => {
+        {[...views].sort((a, b) => a.room.code.localeCompare(b.room.code)).map((v, i) => {
           const r = v.room
           const label = v.tenantName ?? (v.key === 'homestay' ? v.guestName : t(`state.${v.key}`))
           return (
-            <button key={r.id} className="row-btn" onClick={() => open({ kind: 'room', roomId: r.id })}>
+            <button key={r.id} className="row-btn rise" style={stagger(i)} onClick={() => open({ kind: 'room', roomId: r.id })}>
               <span className={'badge-win win ' + v.key} style={{ height: 46 }}>{r.code}</span>
               <span className="stack grow">
                 <span className="title">{label}</span>

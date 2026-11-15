@@ -7,6 +7,7 @@ import type { ExpenseCategory } from '../domain/types'
 import { addMonths, monthName, monthShort, periodOf } from '../lib/dates'
 import { rp } from '../lib/format'
 import { SubHeader } from '../components/ui'
+import { stagger } from '../components/Loading'
 
 export default function ReportScreen() {
   const { t, lang } = usePrefs()
@@ -71,7 +72,7 @@ export default function ReportScreen() {
             <span className="title num">{monthName(series[hi].p, lang)} · {rp(series[hi].v)}</span>
             <div className="bars" onMouseLeave={() => setHover(null)}>
               {series.map((s, i) => (
-                <button key={s.p} aria-label={`${monthName(s.p, lang)}: ${rp(s.v)}`} onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onClick={() => setHover(i)}>
+                <button key={s.p} style={stagger(i)} aria-label={`${monthName(s.p, lang)}: ${rp(s.v)}`} onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onClick={() => setHover(i)}>
                   <span style={{ height: Math.round((s.v / max) * 150), opacity: i === 5 ? 0.45 : hover === null || hover === i ? 1 : 0.6 }} />
                 </button>
               ))}

@@ -10,6 +10,7 @@ import { parseRupiah, rp, rpShort } from '../lib/format'
 import { openWhatsApp } from '../lib/wa'
 import { Choices, Sheet, SubHeader, useToast } from '../components/ui'
 import { LeafDeco } from '../components/Logo'
+import { stagger } from '../components/Loading'
 
 const DAYS = 14
 
@@ -87,11 +88,11 @@ export default function HomestayScreen() {
           <section className="stack-lg">
             <h2 className="section-title">{t('hs.bookings')}</h2>
             {upcoming.length === 0 && <div className="empty-note">{t('hs.noBookings')}</div>}
-            {upcoming.map((b) => {
+            {upcoming.map((b, i) => {
               const room = data.rooms.find((r) => r.id === b.roomId)!
               const [pc, pt] = payChip(b)
               return (
-                <button key={b.id} className="row-btn" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 8 }} onClick={() => setSelId(b.id)}>
+                <button key={b.id} className="row-btn rise" style={{ ...stagger(i), flexDirection: 'column', alignItems: 'stretch', gap: 8 }} onClick={() => setSelId(b.id)}>
                   <span className="row">
                     <span className="badge-win win homestay" style={{ height: 40, width: 40 }}>{room.code}</span>
                     <span className="stack grow"><span className="title">{b.guestName}</span><span className="sub small">{fmtDate(b.checkIn, lang)}–{fmtDate(b.checkOut, lang)} · {t('hs.nights', { n: nights(b) })}</span></span>

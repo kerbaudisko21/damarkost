@@ -12,9 +12,26 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Damar Kost</title>
+    <style>
+      /* Layar pembuka sebelum JavaScript termuat (diganti React otomatis) */
+      html, body { margin: 0; background: #FBF9F3; }
+      @media (prefers-color-scheme: dark) { html, body { background: #14150F; } }
+      .boot { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; font-family: Georgia, serif; color: #3B4A2C; }
+      @media (prefers-color-scheme: dark) { .boot { color: #C9D7A8; } }
+      .boot b { font-size: 26px; letter-spacing: 0.08em; }
+      .boot i { width: 8px; height: 8px; border-radius: 99px; background: #9A7149; display: inline-block; margin: 0 3px; animation: bd 1.1s ease-in-out infinite; }
+      .boot i:nth-child(2) { animation-delay: .15s } .boot i:nth-child(3) { animation-delay: .3s }
+      @keyframes bd { 0%, 80%, 100% { opacity: .25 } 40% { opacity: 1 } }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="boot" role="status" aria-label="Memuat Damar Kost">
+        <img src="/icon.svg" width="88" height="88" alt="" style="border-radius: 22px" />
+        <b>DAMAR KOST</b>
+        <span><i></i><i></i><i></i></span>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

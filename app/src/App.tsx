@@ -6,6 +6,7 @@ import { PrefsProvider, usePrefs } from './lib/prefs'
 import { ToastProvider } from './components/ui'
 import { SheetHost, useSheets } from './components/sheets'
 import { PinGate } from './screens/Pin'
+import { Splash } from './components/Loading'
 import HomeScreen from './screens/Home'
 import RoomsScreen from './screens/Rooms'
 import BillsScreen from './screens/Bills'
@@ -40,12 +41,15 @@ function ScrollToTop() {
 
 function Shell() {
   const { ready } = useStore()
-  if (!ready) return null
+  const { t } = usePrefs()
+  const { pathname } = useLocation()
+  if (!ready) return <Splash label={t('common.loading')} />
   return (
     <PinGate>
       <SheetHost>
         <div className="app">
           <ScrollToTop />
+          <div className="page" key={pathname}>
           <Routes>
             <Route path="/" element={<><HomeScreen /><TabBar /></>} />
             <Route path="/kamar" element={<><RoomsScreen /><TabBar /></>} />
@@ -59,6 +63,7 @@ function Shell() {
             <Route path="/pengaturan" element={<SettingsScreen />} />
             <Route path="*" element={<><HomeScreen /><TabBar /></>} />
           </Routes>
+          </div>
         </div>
       </SheetHost>
     </PinGate>

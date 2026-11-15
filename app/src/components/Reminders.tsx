@@ -9,6 +9,7 @@ import { rp } from '../lib/format'
 import { setBadge } from '../lib/push'
 import { Sheet } from './ui'
 import { useSheets } from './sheets'
+import { stagger } from './Loading'
 
 const ICON: Record<ReminderKind, ReactNode> = {
   late: <AlertCircle size={20} />, due: <Clock size={20} />, checkin: <LogIn size={20} />, checkout: <LogOut size={20} />, leaving: <CalendarCheck size={20} />, repair: <Wrench size={20} />,
@@ -33,7 +34,7 @@ export function BellButton() {
         style={{ position: 'relative', width: 44, height: 44, borderRadius: 999, background: 'var(--soft)', color: 'var(--softInk)' }}>
         <Bell size={21} />
         {count > 0 && (
-          <span aria-hidden="true" style={{ position: 'absolute', top: 2, right: 2, minWidth: 18, height: 18, padding: '0 5px', borderRadius: 999, background: 'var(--late-dot)', color: '#fff', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--bg)', boxSizing: 'content-box' }}>{count}</span>
+          <span key={count} className="badge-pop" aria-hidden="true" style={{ position: 'absolute', top: 2, right: 2, minWidth: 18, height: 18, padding: '0 5px', borderRadius: 999, background: 'var(--late-dot)', color: '#fff', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--bg)', boxSizing: 'content-box' }}>{count}</span>
         )}
       </button>
       {open && <ReminderSheet items={items} onClose={() => setOpen(false)} />}
@@ -66,10 +67,10 @@ function ReminderSheet({ items, onClose }: { items: Reminder[]; onClose: () => v
       <div className="stack"><h2>{t('rem.title')}</h2><span className="sub">{t('rem.sub')}</span></div>
       {items.length === 0 && <div className="hint">{t('rem.none')}</div>}
       <div className="stack-lg">
-        {items.map((r) => {
+        {items.map((r, i) => {
           const [title, sub] = text(r)
           return (
-            <button key={r.id} className="row-btn" onClick={() => act(r)}>
+            <button key={r.id} className="row-btn rise" style={stagger(i)} onClick={() => act(r)}>
               <span className={'chip ' + TONE[r.kind]} style={{ width: 40, height: 40, borderRadius: 12, padding: 0, justifyContent: 'center' }}>{ICON[r.kind]}</span>
               <span className="stack grow"><span className="title">{title}</span><span className="sub small">{sub}</span></span>
             </button>

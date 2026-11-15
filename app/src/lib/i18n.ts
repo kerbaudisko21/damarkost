@@ -16,6 +16,8 @@ export const DICT = {
   'common.perNight': ['/ malam', '/ night'],
   'common.today': ['Hari ini', 'Today'],
   'common.seeAll': ['Lihat semua', 'See all'],
+  'common.loading': ['Memuat data kos…', 'Loading your property…'],
+  'common.working': ['Memproses…', 'Working…'],
   'common.demo': ['Mode demo · data tersimpan di perangkat ini', 'Demo mode · data stored on this device'],
   'state.paid': ['Lunas', 'Paid'],
   'state.due': ['Jatuh tempo', 'Due'],

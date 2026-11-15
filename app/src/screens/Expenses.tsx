@@ -7,6 +7,7 @@ import { addMonths, fmtDate, monthName, periodOf } from '../lib/dates'
 import { rp } from '../lib/format'
 import { Choices, SubHeader, useToast } from '../components/ui'
 import { useSheets } from '../components/sheets'
+import { stagger } from '../components/Loading'
 
 export const CAT_ICON: Record<ExpenseCategory, ReactNode> = {
   elec: <Zap size={20} />, water: <Droplet size={20} />, wifi: <Wifi size={20} />, clean: <Sparkles size={20} />, repair: <Wrench size={20} />, other: <MoreHorizontal size={20} />,
@@ -34,8 +35,8 @@ export default function ExpensesScreen() {
       <Choices value={cat} onChange={setCat} options={(['all', 'elec', 'water', 'wifi', 'clean', 'repair', 'other'] as const).map((c) => ({ value: c, label: t(`cat.${c}`) }))} />
       {list.length === 0 && <div className="empty-note">{t('exp.none')}</div>}
       <div className="stack-lg">
-        {list.map((e) => (
-          <div key={e.id} className="row-btn" style={{ cursor: 'default' }}>
+        {list.map((e, i) => (
+          <div key={e.id} className="row-btn rise" style={{ ...stagger(i), cursor: 'default' }}>
             <span className={'chip ' + CAT_TONE[e.category]} style={{ width: 42, height: 42, borderRadius: 12, padding: 0, justifyContent: 'center' }}>{CAT_ICON[e.category]}</span>
             <span className="stack grow"><span className="title">{t(`cat.${e.category}`)}</span><span className="sub">{e.note || '—'}</span><span className="sub small">{fmtDate(e.date, lang, true)}</span></span>
             <span className="stack" style={{ alignItems: 'flex-end' }}>

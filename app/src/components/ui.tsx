@@ -6,17 +6,26 @@ import { LogoMark } from './Logo'
 
 /* ---------- Lembar bawah ---------- */
 export function Sheet({ open, onClose, children, label }: { open: boolean; onClose: () => void; children: ReactNode; label: string }) {
+  const [closing, setClosing] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
+  // Tutup dengan animasi turun; tombol aksi di dalam lembar tetap boleh memanggil onClose langsung.
+  const requestClose = useCallback(() => {
+    if (closing) return
+    setClosing(true)
+    timer.current = window.setTimeout(() => { setClosing(false); onClose() }, 190)
+  }, [closing, onClose])
+  useEffect(() => () => window.clearTimeout(timer.current), [])
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') requestClose() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open, onClose])
+  }, [open, requestClose])
   if (!open) return null
   return (
     <div className="sheet-wrap" role="dialog" aria-modal="true" aria-label={label}>
-      <button className="sheet-backdrop" aria-label="×" onClick={onClose} />
-      <div className="sheet">
+      <button className={'sheet-backdrop' + (closing ? ' out' : '')} aria-label="×" onClick={requestClose} />
+      <div className={'sheet' + (closing ? ' out' : '')}>
         <div className="sheet-handle" />
         {children}
       </div>

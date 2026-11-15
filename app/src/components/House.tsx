@@ -1,6 +1,7 @@
 import type { RoomView } from '../domain/billing'
 import { usePrefs } from '../lib/prefs'
 import { roomChip, roomTag, STATE_DOT } from '../lib/labels'
+import { stagger } from './Loading'
 
 /** Denah kamar berupa rumah 2 lantai. Setiap kamar = jendela berwarna status. */
 export function House({ views, onOpen }: { views: RoomView[]; onOpen: (roomId: string) => void }) {
@@ -26,7 +27,7 @@ export function House({ views, onOpen }: { views: RoomView[]; onOpen: (roomId: s
                   c === 'door' ? (
                     <div key={'door' + i} className="door" aria-hidden="true"><span /><span /><span /></div>
                   ) : (
-                    <button key={c.room.id} className={'win ' + c.key} onClick={() => onOpen(c.room.id)} aria-label={`${t('common.room', { code: c.room.code })}, ${roomChip(c, t)}`}>
+                    <button key={c.room.id + c.key} style={stagger(fi * 5 + i)} className={'win ' + c.key} onClick={() => onOpen(c.room.id)} aria-label={`${t('common.room', { code: c.room.code })}, ${roomChip(c, t)}`}>
                       <b>{c.room.code}</b>
                       <small>{roomTag(c, t, lang)}</small>
                     </button>

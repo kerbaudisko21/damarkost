@@ -6,6 +6,7 @@ import { fmtDate, monthName, periodOf } from '../lib/dates'
 import { initials, rp } from '../lib/format'
 import { Choices } from '../components/ui'
 import { useSheets } from '../components/sheets'
+import { stagger } from '../components/Loading'
 
 type Filter = 'unpaid' | 'paid' | 'all'
 
@@ -51,8 +52,8 @@ export default function BillsScreen() {
       ]} />
       {shown.length === 0 && <div className="empty-note">{t('bills.none')}</div>}
       <div className="stack-lg">
-        {shown.map((r) => (
-          <div key={r.inv.id} className="card" style={{ padding: 14 }}>
+        {shown.map((r, i) => (
+          <div key={r.inv.id} className="card rise" style={{ ...stagger(i), padding: 14 }}>
             <div className="row">
               <span className="avatar round">{initials(r.tenant.name)}</span>
               <span className="stack grow"><span className="title">{r.tenant.name}</span><span className="sub">{t('bills.dueLine', { code: r.room.code, date: fmtDate(r.inv.dueDate, lang) })}</span></span>

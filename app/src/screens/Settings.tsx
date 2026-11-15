@@ -80,6 +80,7 @@ export default function SettingsScreen() {
   const s = data.settings
   const [pinSetup, setPinSetup] = useState(false)
   const [editRoom, setEditRoom] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
   const { hash } = useLocation()
   useEffect(() => { if (hash === '#notif') setTimeout(() => document.getElementById('notif')?.scrollIntoView({ block: 'start' }), 50) }, [hash])
   const [notifMsg, setNotifMsg] = useState<DictKey | null>(() => (pushState() === 'granted' ? 'notif.on' : pushState() === 'denied' ? 'notif.denied' : null))
@@ -167,7 +168,7 @@ export default function SettingsScreen() {
         <span className="sub">{t('notif.body')}</span>
         {notifMsg && <div className={'hint' + (notifMsg === 'notif.denied' || notifMsg === 'notif.unsupported' ? ' warn' : '')}>{t(notifMsg)}</div>}
         {pushState() !== 'granted' || !notifMsg ? (
-          <button className="btn primary block" onClick={async () => setNotifMsg(MSG[await enableNotifications()])}><Bell size={18} />{t('notif.enable')}</button>
+          <button className="btn primary block" disabled={busy} aria-busy={busy} onClick={async () => { setBusy(true); try { setNotifMsg(MSG[await enableNotifications()]) } finally { setBusy(false) } }}>{busy ? <span className="spinner" /> : <Bell size={18} />}{busy ? t('common.working') : t('notif.enable')}</button>
         ) : null}
       </section>
 
