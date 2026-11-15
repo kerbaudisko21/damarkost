@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Damar Kost web — Tagihan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{color:#3B4A2C}a:hover{color:#2C3820}
+</style>
+</helmet>
+<div style="position: relative; min-height: 900px; background: {{t.bg}}; font-family: 'Manrope', system-ui, sans-serif; color: {{t.ink}}; display: flex; flex-wrap: wrap; align-items: stretch">
+  <aside style="position: relative; flex: 1 1 248px; max-width: 100%; box-sizing: border-box; padding: 26px 16px 20px; background: {{t.sideBg}}; color: {{t.sideInk}}; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
+    <a href="Desktop.dc.html" aria-label="Damar Kost" style="display: flex; align-items: center; gap: 10px; padding: 0 6px; text-decoration: none; color: {{t.sideInk}}">
+      <svg width="58" height="36" viewBox="14 4 214 128" fill="none" aria-hidden="true"><path d="M92 70 152 22 214 70" stroke="{{t.sWood}}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M110 66v58h96V66" stroke="{{t.sWood}}" stroke-width="5"></path><rect x="141" y="42" width="18" height="18" stroke="{{t.sWood}}" stroke-width="4"></rect><rect x="164" y="84" width="26" height="40" fill="{{t.sDoor}}"></rect><path d="M36 128h190" stroke="{{t.sWood}}" stroke-width="5" stroke-linecap="round"></path><path d="M62 126V54" stroke="{{t.sLeaf}}" stroke-width="4"></path><path d="M62 66c-12-6-16-18-10-28 10 4 14 16 10 28zM62 80c12-6 18-18 12-30-10 6-14 18-12 30zM62 96c-14-4-22-14-18-26 12 2 18 14 18 26zM62 108c14-2 22-12 20-24-12 2-20 12-20 24zM62 56c-6-8-6-18 0-24 6 6 6 16 0 24z" fill="{{t.sLeaf}}"></path><path d="M80 126c4-20 16-32 32-36-2 18-14 32-32 36zM40 126c-6-14-2-28 8-36 6 14 2 28-8 36z" fill="{{t.sLeaf2}}"></path></svg>
+      <span style="display: flex; flex-direction: column; gap: 4px; line-height: 1"><span style="font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; letter-spacing: 0.06em">DAMAR</span><span style="display: flex; align-items: center; gap: 6px; color: {{t.sWood}}"><span style="width: 14px; height: 1.5px; background: currentColor"></span><span style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em">KOST</span><span style="width: 14px; height: 1.5px; background: currentColor"></span></span></span>
+    </a>
+    <nav aria-label="Menu" style="position: relative; display: flex; flex-direction: column; gap: 4px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="7">
+        <a href="{{n.href}}" style="{{n.style}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d1}}"></path><path d="{{n.d2}}"></path></svg>{{n.label}}</a>
+      </sc-for>
+    </nav>
+    <div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; gap: 8px">
+        <div role="group" aria-label="Bahasa / Language" style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.08)">
+          <button onClick="{{setId}}" aria-pressed="{{isId}}" style="{{idStyle}}">ID</button>
+          <button onClick="{{setEn}}" aria-pressed="{{en}}" style="{{enStyle}}">EN</button>
+        </div>
+        <button onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="flex: none; width: 40px; height: 38px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.08); color: {{t.sideInk}}; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+          <sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        </button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,0.08)">
+        <span style="flex: none; width: 38px; height: 38px; border-radius: 999px; background: {{t.sWood}}; color: {{t.sideBg}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">BR</span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0"><span style="font-size: 14px; font-weight: 700">Bu Ratna</span><span style="font-size: 12px; color: {{t.sideInk2}}">{{role}}</span></span>
+        <a href="DLogin.dc.html" aria-label="{{logoutLabel}}" title="{{logoutLabel}}" style="flex: none; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: {{t.sideInk}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg></a>
+      </div>
+    </div>
+    <svg width="200" height="160" viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; left: -40px; bottom: 90px; opacity: 0.08"><path d="M60 90C62 50 84 18 120 6 116 46 94 78 60 90zM60 90C46 62 22 46 0 44c6 26 30 44 60 46z" fill="#FFFFFF"></path></svg>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px clamp(16px, 3vw, 40px) 48px">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h1 style="margin: 0; font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; letter-spacing: 0.02em">{{L.title}}</h1>
+          <span style="font-size: 14px; color: {{t.ink2}}">{{L.sub}}</span>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <span style="display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; font-size: 14px; font-weight: 700; box-sizing: border-box">{{L.month}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+          <button style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.waLine}}; background: {{t.waBg}}; color: {{t.waInk}}; font-size: 14px; font-weight: 700">{{remindAll}}</button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border-radius: 24px; background: {{t.surface}}; border: 1px solid {{t.line}}"><span style="font-size: 13px; color: {{t.ink2}}; font-weight: 600">{{L.target}}</span><span style="font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums">{{targetText}}</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border-radius: 24px; background: {{t.surface}}; border: 1px solid {{t.line}}"><span style="font-size: 13px; color: {{t.ink2}}; font-weight: 600">{{L.in}}</span><span style="font-size: 24px; font-weight: 800; color: {{goodInk}}; font-variant-numeric: tabular-nums">{{collectedText}}</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border-radius: 24px; background: {{t.surface}}; border: 1px solid {{t.line}}"><span style="font-size: 13px; color: {{t.ink2}}; font-weight: 600">{{L.out}}</span><span style="font-size: 24px; font-weight: 800; color: {{badInk}}; font-variant-numeric: tabular-nums">{{remainText}}</span></div>
+      </div>
+
+      <section style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+            <button onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+          </sc-for>
+        </div>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; min-width: 820px; border-collapse: collapse; font-size: 14px">
+            <thead>
+              <tr>
+                <sc-for list="{{cols}}" as="c" hint-placeholder-count="7">
+                  <th style="{{c.style}}">{{c.label}}</th>
+                </sc-for>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+                <tr>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}"><span style="display: flex; align-items: center; gap: 10px"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: {{t.soft}}; color: {{t.softInk}}; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">{{r.initials}}</span><span style="font-weight: 700">{{r.name}}</span></span></td>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}; font-weight: 600">{{r.id}}</td>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}; color: {{t.ink2}}">{{r.due}}</td>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}; text-align: right; font-weight: 800; font-variant-numeric: tabular-nums">{{r.priceText}}</td>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}"><span style="{{r.chipStyle}}">{{r.chipText}}</span></td>
+                  <td style="padding: 12px 8px; border-top: 1px solid {{t.line2}}; color: {{t.ink2}}">{{r.paidInfo}}</td>
+                  <td style="padding: 8px; border-top: 1px solid {{t.line2}}; text-align: right; white-space: nowrap">
+                    <sc-if value="{{r.unpaid}}" hint-placeholder-val="{{ true }}">
+                      <span style="display: inline-flex; gap: 6px">
+                        <button style="height: 36px; padding: 0 10px; border-radius: 10px; border: 1px solid {{t.waLine}}; background: {{t.waBg}}; color: {{t.waInk}}; font-size: 13px; font-weight: 700">{{L.remind}}</button>
+                        <button onClick="{{r.open}}" style="height: 36px; padding: 0 12px; border-radius: 10px; border: 0; background: {{t.accent}}; color: #FFFFFF; font-size: 13px; font-weight: 700">{{L.pay}}</button>
+                      </span>
+                    </sc-if>
+                    <sc-if value="{{r.paid}}" hint-placeholder-val="{{ false }}">
+                      <button style="height: 36px; padding: 0 10px; border-radius: 10px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 13px; font-weight: 600">{{L.receipt}}</button>
+                    </sc-if>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <sc-if value="{{drawer}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; z-index: 20; display: flex; justify-content: flex-end">
+      <button onClick="{{close}}" aria-label="{{L.close}}" style="position: absolute; inset: 0; border: 0; padding: 0; background: rgba(10,16,13,0.45)"></button>
+      <div role="dialog" aria-label="{{L.payTitle}}" style="position: relative; width: 400px; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; padding: 28px 24px; background: {{t.surface}}; border-left: 1px solid {{t.line}}; box-shadow: -12px 0 40px rgba(0,0,0,0.18)">
+        <div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 20px; font-weight: 800">{{L.payTitle}}</span><button onClick="{{close}}" aria-label="{{L.close}}" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: {{t.sunken}}">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 999px; background: {{t.soft}}; color: {{t.softInk}}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">{{sel.initials}}</span>
+          <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 700">{{sel.name}}</span><span style="font-size: 13px; color: {{t.ink2}}">{{sel.roomLine}}</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.amount}}</span><span style="padding: 12px 14px; border-radius: 12px; border: 1.5px solid {{t.field}}; font-size: 24px; font-weight: 800">{{sel.priceText}}</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.method}}</span>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+            <sc-for list="{{methods}}" as="m" hint-placeholder-count="3"><button onClick="{{m.pick}}" style="{{m.style}}">{{m.label}}</button></sc-for>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="color: {{t.ink2}}">{{L.date}}</span><span style="font-weight: 700">{{L.today}}</span></div>
+        <button style="height: 46px; border-radius: 12px; border: 1.5px dashed {{t.field}}; background: transparent; color: {{t.ink2}}; font-size: 14px; font-weight: 600">{{L.proof}}</button>
+        <button onClick="{{markPaid}}" style="height: 50px; border-radius: 12px; border: 0; background: {{t.accent}}; color: #FFFFFF; font-size: 16px; font-weight: 700">{{L.mark}}</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3B4A2C","options":["#3B4A2C","#2D5A85","#8A6440","#4E4870"]},"theme":{"editor":"enum","default":"light","options":["light","dark"]},"lang":{"editor":"enum","default":"id","options":["id","en"]},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = {};
+    try { saved = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; } catch (e) { saved = {}; }
+    this.state = { theme: saved.theme || null, lang: saved.lang || null, filter: 'all', paid: {}, open: null, method: 'Transfer' };
+  }
+  setPref(k, v) {
+    const p = {}; p[k] = v; this.setState(p);
+    try { const cur = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; cur[k] = v; window.localStorage.setItem('kc-prefs', JSON.stringify(cur)); } catch (e) {}
+  }
+  shell(active) {
+    const dark = (this.state.theme || this.props.theme || 'light') === 'dark';
+    const en = (this.state.lang || this.props.lang || 'id') === 'en';
+    const accent = this.props.accent ?? '#3B4A2C';
+    const t = dark
+      ? { bg: '#14150F', surface: '#1D1F17', sunken: '#25281E', line: '#33362A', line2: '#2A2D22', ink: '#EDEBE2', ink2: '#ADAA9A', ink3: '#D2CFC2', soft: '#2D3522', softInk: '#C9D7A8', field: '#423F33', btnLine: '#423F33', waBg: '#252C1C', waLine: '#3E4A2E', waInk: '#C9D7A8', track: '#33362A', bubble: '#283420' }
+      : { bg: '#FBF9F3', surface: '#FFFFFF', sunken: '#FBF9F3', line: '#EAE4D8', line2: '#F0EBE1', ink: '#26251D', ink2: '#6A6656', ink3: '#45433A', soft: '#EEF0E4', softInk: '#3B4A2C', field: '#D8CFBE', btnLine: '#DDD5C6', waBg: '#F1F4EA', waLine: '#D6DEC6', waInk: '#47662A', track: '#F0EBE1', bubble: '#E6EEDA' };
+    Object.assign(t, dark ? { leaf: '#C9D7A8', leaf2: '#9DB27A', woodLine: '#C99A6E', door: '#8A6440', facade: '#1D1F17', roof: '#2A2D22', sky: '#22241B' } : { leaf: '#3B4A2C', leaf2: '#6E8450', woodLine: '#9A7149', door: '#B8926A', facade: '#FFFDF8', roof: '#F3E8D8', sky: '#F4EEE2' });
+    t.accent = accent; t.wood = dark ? '#C99A6E' : '#9A7149'; Object.assign(t, dark ? { sideBg: '#0F100B', sideInk: '#EDEBE2', sideInk2: 'rgba(237,235,226,0.62)', sideActiveBg: '#2D3522', sideActiveInk: '#C9D7A8', sLeaf: '#C9D7A8', sLeaf2: '#9DB27A', sWood: '#C99A6E', sDoor: '#8A6440' } : { sideBg: '#2F3B24', sideInk: '#F4F1E6', sideInk2: 'rgba(244,241,230,0.68)', sideActiveBg: '#FBF9F3', sideActiveInk: '#2F3B24', sLeaf: '#C9D7A8', sLeaf2: '#A9BE86', sWood: '#D9B48C', sDoor: '#B8926A' });
+    const S = dark
+      ? { paid: { c: 'background:#283420;color:#BFD49A;', tile: 'background:#1D1F17;border:1px solid #33362A;', dot: '#93AE6A' }, due: { c: 'background:#3A2E14;color:#F0C46A;', tile: 'background:#221E15;border:1px solid #5A4722;', dot: '#E0A33A' }, late: { c: 'background:#43221A;color:#F2A58E;', tile: 'background:#271B17;border:1px solid #5E3428;', dot: '#D9694C' }, empty: { c: 'background:#1C2C3D;color:#9DC0E6;', tile: 'background:#172029;border:1.5px dashed #3F5A78;', dot: '#6F8FB0' }, repair: { c: 'background:#2B2840;color:#C4BEE6;', tile: 'background:#1F1D29;border:1px solid #444060;', dot: '#8F88B5' } }
+      : { paid: { c: 'background:#E7EEDB;color:#47662A;', tile: 'background:#FFFFFF;border:1px solid #E6DFD2;', dot: '#6E8F45' }, due: { c: 'background:#FBF0D9;color:#7A5200;', tile: 'background:#FFFBF2;border:1px solid #EFD9A8;', dot: '#E0A33A' }, late: { c: 'background:#FBE4DC;color:#A13A20;', tile: 'background:#FFF5F1;border:1px solid #EDC2B3;', dot: '#C85A3E' }, empty: { c: 'background:#E4EDF6;color:#2D5A85;', tile: 'background:#F4F8FC;border:1.5px dashed #A9C0D8;', dot: '#6F8FB0' }, repair: { c: 'background:#ECEAF3;color:#4E4870;', tile: 'background:#F7F6FA;border:1px solid #D9D5E7;', dot: '#A9A3C4' } };
+    const chip = (k) => 'display:inline-flex;align-self:flex-start;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;line-height:16px;white-space:nowrap;' + S[k].c;
+    const NAV = [
+      ['home', 'Beranda', 'Home', 'Desktop.dc.html', 'M3 10.5 12 3l9 7.5', 'M5 9.5V21h14V9.5'],
+      ['rooms', 'Kamar', 'Rooms', 'DKamar.dc.html', 'M3 3h7v7H3zM14 3h7v7h-7z', 'M3 14h7v7H3zM14 14h7v7h-7z'],
+      ['bills', 'Tagihan', 'Bills', 'DTagihan.dc.html', 'M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z', 'M9 8h6M9 12h6'],
+      ['people', 'Penghuni', 'Tenants', 'DPenghuni.dc.html', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7.5'],
+      ['exp', 'Pengeluaran', 'Expenses', 'DPengeluaran.dc.html', 'M2 6h20v12H2z', 'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'],
+      ['report', 'Laporan', 'Reports', 'DLaporan.dc.html', 'M4 20V10M10 20V4M16 20v-7', 'M2 20h20'],
+      ['settings', 'Pengaturan', 'Settings', 'DPengaturan.dc.html', 'M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11', 'M15 4v4M9 10v4M17 16v4']
+    ];
+    const nav = NAV.map((n) => ({ label: en ? n[2] : n[1], href: n[3], d1: n[4], d2: n[5],
+      style: 'display:flex;align-items:center;gap:12px;min-height:46px;padding:0 14px;border-radius:14px;text-decoration:none;font-size:15px;font-weight:' + (n[0] === active ? '700;background:' + t.sideActiveBg + ';color:' + t.sideActiveInk : '600;background:transparent;color:' + t.sideInk2) + ';' }));
+    const seg = (on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:' + t.surface + ';color:' + t.ink + ';box-shadow:0 1px 3px rgba(0,0,0,0.12);' : 'background:transparent;color:' + t.ink2 + ';');
+    return {
+      t: t, S: S, chip: chip, dark: dark, en: en, nav: nav,
+      tr: (id, e) => (en ? e : id),
+      rp: (n) => 'Rp' + Number(n).toLocaleString('id-ID'),
+      brandSub: en ? '9 rooms' : '9 kamar', role: en ? 'Owner' : 'Pemilik',
+      themeLabel: dark ? (en ? 'Light mode' : 'Mode terang') : (en ? 'Dark mode' : 'Mode gelap'),
+      isDark: dark, isLight: !dark, isId: !en,
+      idStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(!en), enStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(en), logoutLabel: en ? 'Sign out' : 'Keluar',
+      goodInk: dark ? '#BFD49A' : '#47662A', badInk: dark ? '#F2A58E' : '#A13A20',
+      toggleTheme: () => this.setPref('theme', dark ? 'light' : 'dark'),
+      setId: () => this.setPref('lang', 'id'), setEn: () => this.setPref('lang', 'en')
+    };
+  }
+  renderVals() {
+    const sh = this.shell('bills');
+    const t = sh.t, tr = sh.tr, rp = sh.rp;
+    const s = this.state;
+    const L = {
+      title: tr('Tagihan', 'Bills'), sub: tr('7 penghuni aktif · jatuh tempo per tanggal masuk', '7 active tenants · due on each move-in date'),
+      month: tr('November 2026', 'November 2026'), target: tr('Target bulan ini', 'Expected this month'), in: tr('Sudah masuk', 'Collected'), out: tr('Belum masuk', 'Outstanding'),
+      remind: tr('Ingatkan', 'Remind'), pay: tr('Catat bayar', 'Record'), receipt: tr('Kuitansi', 'Receipt'),
+      payTitle: tr('Catat pembayaran', 'Record payment'), close: tr('Tutup', 'Close'), amount: tr('Nominal', 'Amount'), method: tr('Metode', 'Method'),
+      date: tr('Tanggal bayar', 'Payment date'), today: tr('Hari ini, 15 Nov 2026', 'Today, 15 Nov 2026'), proof: tr('Lampirkan bukti (opsional)', 'Attach proof (optional)'), mark: tr('Tandai Lunas', 'Mark as paid')
+    };
+    const base = [
+      { id: '201', name: 'Sinta Maharani', price: 1500000, bill: 'late', due: '10 Nov', note: tr('Telat 5 hari', '5 days late') },
+      { id: '101', name: 'Andi Pratama', price: 1200000, bill: 'due', due: '17 Nov', note: tr('2 hari lagi', 'in 2 days') },
+      { id: '204', name: 'Fajar Nugroho', price: 1500000, bill: 'due', due: '20 Nov', note: tr('5 hari lagi', 'in 5 days') },
+      { id: '202', name: 'Budi Santoso', price: 1500000, bill: 'paid', due: '1 Nov', paidInfo: tr('1 Nov · Tunai', '1 Nov · Cash') },
+      { id: '205', name: 'Maya Putri', price: 1500000, bill: 'paid', due: '3 Nov', paidInfo: '3 Nov · Transfer' },
+      { id: '102', name: 'Rina Kurnia', price: 1200000, bill: 'paid', due: '5 Nov', paidInfo: '4 Nov · Transfer' },
+      { id: '104', name: 'Dewi Lestari', price: 1200000, bill: 'paid', due: '12 Nov', paidInfo: '12 Nov · QRIS' }
+    ];
+    const methodLabel = { Tunai: tr('Tunai', 'Cash'), Transfer: 'Transfer', QRIS: 'QRIS' };
+    const all = base.map((r) => {
+      const justPaid = s.paid[r.id];
+      const key = justPaid ? 'paid' : r.bill;
+      return Object.assign({}, r, {
+        key: key, paid: key === 'paid', unpaid: key !== 'paid',
+        chipText: key === 'paid' ? tr('Lunas', 'Paid') : (key === 'late' ? r.note : tr('Jatuh tempo ', 'Due ') + r.note),
+        chipStyle: sh.chip(key), priceText: rp(r.price),
+        paidInfo: justPaid ? '15 Nov · ' + methodLabel[justPaid] : (r.paidInfo || '—'),
+        initials: r.name.split(' ').map((w) => w[0]).slice(0, 2).join(''),
+        roomLine: tr('Kamar ', 'Room ') + r.id + tr(' · Sewa November', ' · November rent'),
+        open: () => this.setState({ open: r.id, method: 'Transfer' })
+      });
+    });
+    const unpaid = all.filter((r) => r.unpaid), paid = all.filter((r) => r.paid);
+    const rows = s.filter === 'unpaid' ? unpaid : s.filter === 'paid' ? paid : all;
+    const target = all.reduce((a, r) => a + r.price, 0), collected = paid.reduce((a, r) => a + r.price, 0);
+    const pill = (on) => 'height:38px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:700;' + (on ? 'background:' + t.accent + ';color:#FFFFFF;border:1px solid ' + t.accent + ';' : 'background:' + t.surface + ';color:' + t.ink + ';border:1px solid ' + t.btnLine + ';');
+    const filters = [['all', tr('Semua', 'All') + ' (' + all.length + ')'], ['unpaid', tr('Belum bayar', 'Unpaid') + ' (' + unpaid.length + ')'], ['paid', tr('Lunas', 'Paid') + ' (' + paid.length + ')']]
+      .map((f) => ({ label: f[1], style: pill(s.filter === f[0]), pick: () => this.setState({ filter: f[0] }) }));
+    const th = (right) => 'text-align:' + (right ? 'right' : 'left') + ';padding:10px 8px;font-size:12px;font-weight:700;color:' + t.ink2 + ';text-transform:uppercase;letter-spacing:0.04em;';
+    const cols = [[tr('Penghuni', 'Tenant')], [tr('Kamar', 'Room')], [tr('Jatuh tempo', 'Due')], [tr('Nominal', 'Amount'), 1], ['Status'], [tr('Pembayaran', 'Payment')], ['', 1]].map((c) => ({ label: c[0], style: th(c[1]) }));
+    const sel = all.find((r) => r.id === s.open) || all[0];
+    const methods = ['Tunai', 'Transfer', 'QRIS'].map((m) => ({ label: methodLabel[m], style: pill(s.method === m) + 'height:44px;border-radius:12px;', pick: () => this.setState({ method: m }) }));
+    return Object.assign(sh, {
+      L: L, rows: rows, cols: cols, filters: filters, methods: methods, sel: sel,
+      targetText: rp(target), collectedText: rp(collected), remainText: rp(target - collected),
+      remindAll: tr('Ingatkan semua yang belum bayar (', 'Remind all unpaid (') + unpaid.length + ')',
+      drawer: !!s.open,
+      close: () => this.setState({ open: null }),
+      markPaid: () => { const p = Object.assign({}, s.paid); p[s.open] = s.method; this.setState({ paid: p, open: null }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

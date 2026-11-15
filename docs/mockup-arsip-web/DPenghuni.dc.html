@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Damar Kost web — Penghuni</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{color:#3B4A2C}a:hover{color:#2C3820}
+</style>
+</helmet>
+<div style="position: relative; min-height: 1000px; background: {{t.bg}}; font-family: 'Manrope', system-ui, sans-serif; color: {{t.ink}}; display: flex; flex-wrap: wrap; align-items: stretch">
+  <aside style="position: relative; flex: 1 1 248px; max-width: 100%; box-sizing: border-box; padding: 26px 16px 20px; background: {{t.sideBg}}; color: {{t.sideInk}}; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
+    <a href="Desktop.dc.html" aria-label="Damar Kost" style="display: flex; align-items: center; gap: 10px; padding: 0 6px; text-decoration: none; color: {{t.sideInk}}">
+      <svg width="58" height="36" viewBox="14 4 214 128" fill="none" aria-hidden="true"><path d="M92 70 152 22 214 70" stroke="{{t.sWood}}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M110 66v58h96V66" stroke="{{t.sWood}}" stroke-width="5"></path><rect x="141" y="42" width="18" height="18" stroke="{{t.sWood}}" stroke-width="4"></rect><rect x="164" y="84" width="26" height="40" fill="{{t.sDoor}}"></rect><path d="M36 128h190" stroke="{{t.sWood}}" stroke-width="5" stroke-linecap="round"></path><path d="M62 126V54" stroke="{{t.sLeaf}}" stroke-width="4"></path><path d="M62 66c-12-6-16-18-10-28 10 4 14 16 10 28zM62 80c12-6 18-18 12-30-10 6-14 18-12 30zM62 96c-14-4-22-14-18-26 12 2 18 14 18 26zM62 108c14-2 22-12 20-24-12 2-20 12-20 24zM62 56c-6-8-6-18 0-24 6 6 6 16 0 24z" fill="{{t.sLeaf}}"></path><path d="M80 126c4-20 16-32 32-36-2 18-14 32-32 36zM40 126c-6-14-2-28 8-36 6 14 2 28-8 36z" fill="{{t.sLeaf2}}"></path></svg>
+      <span style="display: flex; flex-direction: column; gap: 4px; line-height: 1"><span style="font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; letter-spacing: 0.06em">DAMAR</span><span style="display: flex; align-items: center; gap: 6px; color: {{t.sWood}}"><span style="width: 14px; height: 1.5px; background: currentColor"></span><span style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em">KOST</span><span style="width: 14px; height: 1.5px; background: currentColor"></span></span></span>
+    </a>
+    <nav aria-label="Menu" style="position: relative; display: flex; flex-direction: column; gap: 4px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="7">
+        <a href="{{n.href}}" style="{{n.style}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d1}}"></path><path d="{{n.d2}}"></path></svg>{{n.label}}</a>
+      </sc-for>
+    </nav>
+    <div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; gap: 8px">
+        <div role="group" aria-label="Bahasa / Language" style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.08)">
+          <button onClick="{{setId}}" aria-pressed="{{isId}}" style="{{idStyle}}">ID</button>
+          <button onClick="{{setEn}}" aria-pressed="{{en}}" style="{{enStyle}}">EN</button>
+        </div>
+        <button onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="flex: none; width: 40px; height: 38px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.08); color: {{t.sideInk}}; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+          <sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        </button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,0.08)">
+        <span style="flex: none; width: 38px; height: 38px; border-radius: 999px; background: {{t.sWood}}; color: {{t.sideBg}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">BR</span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0"><span style="font-size: 14px; font-weight: 700">Bu Ratna</span><span style="font-size: 12px; color: {{t.sideInk2}}">{{role}}</span></span>
+        <a href="DLogin.dc.html" aria-label="{{logoutLabel}}" title="{{logoutLabel}}" style="flex: none; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: {{t.sideInk}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg></a>
+      </div>
+    </div>
+    <svg width="200" height="160" viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; left: -40px; bottom: 90px; opacity: 0.08"><path d="M60 90C62 50 84 18 120 6 116 46 94 78 60 90zM60 90C46 62 22 46 0 44c6 26 30 44 60 46z" fill="#FFFFFF"></path></svg>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px clamp(16px, 3vw, 40px) 48px">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h1 style="margin: 0; font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; letter-spacing: 0.02em">{{L.title}}</h1>
+          <span style="font-size: 14px; color: {{t.ink2}}">{{L.sub}}</span>
+        </div>
+        <button style="height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: {{t.accent}}; color: #FFFFFF; font-size: 14px; font-weight: 700">{{L.add}}</button>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+        <!-- Daftar -->
+        <section style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: {{t.sunken}}; border: 1px solid {{t.line}}">
+            <button onClick="{{showActive}}" style="{{segActive}}">{{L.active}}</button>
+            <button onClick="{{showArchive}}" style="{{segArchive}}">{{L.archive}}</button>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <sc-for list="{{list}}" as="p" hint-placeholder-count="7">
+              <button onClick="{{p.pick}}" aria-pressed="{{p.selected}}" style="{{p.rowStyle}}">
+                <span style="{{p.avatar}}">{{p.initials}}</span>
+                <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0">
+                  <span style="font-size: 15px; font-weight: 700">{{p.name}}</span>
+                  <span style="font-size: 13px; color: {{t.ink2}}">{{p.sub}}</span>
+                </span>
+                <span style="{{p.chipStyle}}">{{p.chipText}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- Profil -->
+        <section style="flex: 2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding: 24px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+          <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+            <span style="{{sel.avatarLg}}">{{sel.initials}}</span>
+            <span style="display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px">
+              <span style="font-size: 22px; font-weight: 800">{{sel.name}}</span>
+              <span style="font-size: 14px; color: {{t.ink2}}">{{sel.headline}}</span>
+              <span style="{{sel.chipStyle}}">{{sel.chipText}}</span>
+            </span>
+            <sc-if value="{{sel.active}}" hint-placeholder-val="{{ true }}">
+              <span style="display: flex; gap: 8px; flex-wrap: wrap">
+                <button style="height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.waLine}}; background: {{t.waBg}}; color: {{t.waInk}}; font-size: 14px; font-weight: 700">WhatsApp</button>
+                <button style="height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700">{{L.edit}}</button>
+              </span>
+            </sc-if>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+            <sc-for list="{{sel.facts}}" as="f" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; border: 1px solid {{t.line}}"><span style="font-size: 12px; color: {{t.ink2}}; font-weight: 600">{{f.k}}</span><span style="font-size: 15px; font-weight: 800">{{f.v}}</span></div>
+            </sc-for>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: {{t.sunken}}">
+              <span style="font-size: 14px; font-weight: 700">{{L.personal}}</span>
+              <sc-for list="{{sel.personal}}" as="d" hint-placeholder-count="4">
+                <span style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span style="color: {{t.ink2}}">{{d.k}}</span><span style="font-weight: 600; text-align: right">{{d.v}}</span></span>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: {{t.sunken}}">
+              <span style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 14px; font-weight: 700">{{L.ktp}}</span><button onClick="{{toggleKtp}}" style="height: 32px; padding: 0 10px; border-radius: 8px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 12px; font-weight: 700">{{ktpLabel}}</button></span>
+              <span style="font-size: 12px; color: {{t.ink2}}">{{L.ktpNote}}</span>
+              <sc-if value="{{ktpOpen}}" hint-placeholder-val="{{ false }}">
+                <div style="height: 120px; border-radius: 10px; border: 1.5px dashed {{t.field}}; display: flex; align-items: center; justify-content: center; color: {{t.ink2}}; font-size: 13px; font-weight: 600">{{L.ktpPh}}</div>
+              </sc-if>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 15px; font-weight: 700; margin-bottom: 6px">{{L.history}}</span>
+            <div style="overflow-x: auto">
+              <table style="width: 100%; min-width: 460px; border-collapse: collapse; font-size: 14px">
+                <tbody>
+                  <sc-for list="{{sel.history}}" as="h" hint-placeholder-count="4">
+                    <tr>
+                      <td style="padding: 10px 8px 10px 0; border-top: 1px solid {{t.line2}}; font-weight: 700">{{h.month}}</td>
+                      <td style="padding: 10px 8px; border-top: 1px solid {{t.line2}}; color: {{t.ink2}}">{{h.note}}</td>
+                      <td style="padding: 10px 8px; border-top: 1px solid {{t.line2}}; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums">{{h.amount}}</td>
+                      <td style="padding: 10px 0 10px 8px; border-top: 1px solid {{t.line2}}; text-align: right"><span style="{{h.chipStyle}}">{{h.chip}}</span></td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <sc-if value="{{sel.active}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap">
+              <button style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700">{{L.move}}</button>
+              <button onClick="{{openCheckout}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px solid {{dangerLine}}; background: {{dangerBg}}; color: {{dangerInk}}; font-size: 14px; font-weight: 700">{{L.checkout}}</button>
+            </div>
+          </sc-if>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <sc-if value="{{checkout}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
+      <button onClick="{{closeCheckout}}" aria-label="{{L.close}}" style="position: absolute; inset: 0; border: 0; padding: 0; background: rgba(10,16,13,0.45)"></button>
+      <div role="dialog" aria-label="{{coTitle}}" style="position: relative; width: 460px; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}; box-shadow: 0 20px 50px rgba(0,0,0,0.25)">
+        <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 20px; font-weight: 800">{{coTitle}}</span><span style="font-size: 13px; color: {{t.ink2}}">{{coSub}}</span></span>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.outDate}}<input type="text" placeholder="30 Nov 2026" style="height: 46px; padding: 0 14px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box"></label>
+        <span style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{coDeposit}}</span>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button onClick="{{fullBack}}" style="{{optFull}}">{{L.full}}</button>
+          <button onClick="{{partBack}}" style="{{optPart}}">{{L.part}}</button>
+        </div>
+        <sc-if value="{{isPart}}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: {{t.ink2}}">{{L.cut}}<input type="text" inputmode="numeric" placeholder="Rp0" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box; width: 100%"></label>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: {{t.ink2}}">{{L.reason}}<input type="text" placeholder="{{L.reasonPh}}" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box; width: 100%"></label>
+          </div>
+        </sc-if>
+        <div style="display: flex; gap: 10px; justify-content: flex-end">
+          <button onClick="{{closeCheckout}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700">{{L.cancel}}</button>
+          <button onClick="{{closeCheckout}}" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #A13A20; color: #FFFFFF; font-size: 14px; font-weight: 700">{{L.confirm}}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3B4A2C","options":["#3B4A2C","#2D5A85","#8A6440","#4E4870"]},"theme":{"editor":"enum","default":"light","options":["light","dark"]},"lang":{"editor":"enum","default":"id","options":["id","en"]},"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = {};
+    try { saved = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; } catch (e) { saved = {}; }
+    this.state = { theme: saved.theme || null, lang: saved.lang || null, tab: 'active', sel: '201', ktp: false, checkout: false, deposit: 'full' };
+  }
+  setPref(k, v) {
+    const p = {}; p[k] = v; this.setState(p);
+    try { const cur = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; cur[k] = v; window.localStorage.setItem('kc-prefs', JSON.stringify(cur)); } catch (e) {}
+  }
+  shell(active) {
+    const dark = (this.state.theme || this.props.theme || 'light') === 'dark';
+    const en = (this.state.lang || this.props.lang || 'id') === 'en';
+    const accent = this.props.accent ?? '#3B4A2C';
+    const t = dark
+      ? { bg: '#14150F', surface: '#1D1F17', sunken: '#25281E', line: '#33362A', line2: '#2A2D22', ink: '#EDEBE2', ink2: '#ADAA9A', ink3: '#D2CFC2', soft: '#2D3522', softInk: '#C9D7A8', field: '#423F33', btnLine: '#423F33', waBg: '#252C1C', waLine: '#3E4A2E', waInk: '#C9D7A8', track: '#33362A', bubble: '#283420' }
+      : { bg: '#FBF9F3', surface: '#FFFFFF', sunken: '#FBF9F3', line: '#EAE4D8', line2: '#F0EBE1', ink: '#26251D', ink2: '#6A6656', ink3: '#45433A', soft: '#EEF0E4', softInk: '#3B4A2C', field: '#D8CFBE', btnLine: '#DDD5C6', waBg: '#F1F4EA', waLine: '#D6DEC6', waInk: '#47662A', track: '#F0EBE1', bubble: '#E6EEDA' };
+    Object.assign(t, dark ? { leaf: '#C9D7A8', leaf2: '#9DB27A', woodLine: '#C99A6E', door: '#8A6440', facade: '#1D1F17', roof: '#2A2D22', sky: '#22241B' } : { leaf: '#3B4A2C', leaf2: '#6E8450', woodLine: '#9A7149', door: '#B8926A', facade: '#FFFDF8', roof: '#F3E8D8', sky: '#F4EEE2' });
+    t.accent = accent; t.wood = dark ? '#C99A6E' : '#9A7149'; Object.assign(t, dark ? { sideBg: '#0F100B', sideInk: '#EDEBE2', sideInk2: 'rgba(237,235,226,0.62)', sideActiveBg: '#2D3522', sideActiveInk: '#C9D7A8', sLeaf: '#C9D7A8', sLeaf2: '#9DB27A', sWood: '#C99A6E', sDoor: '#8A6440' } : { sideBg: '#2F3B24', sideInk: '#F4F1E6', sideInk2: 'rgba(244,241,230,0.68)', sideActiveBg: '#FBF9F3', sideActiveInk: '#2F3B24', sLeaf: '#C9D7A8', sLeaf2: '#A9BE86', sWood: '#D9B48C', sDoor: '#B8926A' });
+    const S = dark
+      ? { paid: { c: 'background:#283420;color:#BFD49A;', dot: '#93AE6A' }, due: { c: 'background:#3A2E14;color:#F0C46A;', dot: '#E0A33A' }, late: { c: 'background:#43221A;color:#F2A58E;', dot: '#D9694C' }, empty: { c: 'background:#1C2C3D;color:#9DC0E6;', dot: '#6F8FB0' }, repair: { c: 'background:#2B2840;color:#C4BEE6;', dot: '#8F88B5' }, out: { c: 'background:#2F2E26;color:#D2CFC2;', dot: '#8C887A' } }
+      : { paid: { c: 'background:#E7EEDB;color:#47662A;', dot: '#6E8F45' }, due: { c: 'background:#FBF0D9;color:#7A5200;', dot: '#E0A33A' }, late: { c: 'background:#FBE4DC;color:#A13A20;', dot: '#C85A3E' }, empty: { c: 'background:#E4EDF6;color:#2D5A85;', dot: '#6F8FB0' }, repair: { c: 'background:#ECEAF3;color:#4E4870;', dot: '#A9A3C4' }, out: { c: 'background:#F2EDE3;color:#57534A;', dot: '#A39E8C' } };
+    const chip = (k) => 'display:inline-flex;align-self:flex-start;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;line-height:16px;white-space:nowrap;' + S[k].c;
+    const NAV = [
+      ['home', 'Beranda', 'Home', 'Desktop.dc.html', 'M3 10.5 12 3l9 7.5', 'M5 9.5V21h14V9.5'],
+      ['rooms', 'Kamar', 'Rooms', 'DKamar.dc.html', 'M3 3h7v7H3zM14 3h7v7h-7z', 'M3 14h7v7H3zM14 14h7v7h-7z'],
+      ['bills', 'Tagihan', 'Bills', 'DTagihan.dc.html', 'M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z', 'M9 8h6M9 12h6'],
+      ['people', 'Penghuni', 'Tenants', 'DPenghuni.dc.html', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7.5'],
+      ['exp', 'Pengeluaran', 'Expenses', 'DPengeluaran.dc.html', 'M2 6h20v12H2z', 'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'],
+      ['report', 'Laporan', 'Reports', 'DLaporan.dc.html', 'M4 20V10M10 20V4M16 20v-7', 'M2 20h20'],
+      ['settings', 'Pengaturan', 'Settings', 'DPengaturan.dc.html', 'M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11', 'M15 4v4M9 10v4M17 16v4']
+    ];
+    const nav = NAV.map((n) => ({ label: en ? n[2] : n[1], href: n[3], d1: n[4], d2: n[5],
+      style: 'display:flex;align-items:center;gap:12px;min-height:46px;padding:0 14px;border-radius:14px;text-decoration:none;font-size:15px;font-weight:' + (n[0] === active ? '700;background:' + t.sideActiveBg + ';color:' + t.sideActiveInk : '600;background:transparent;color:' + t.sideInk2) + ';' }));
+    const seg = (on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:' + t.surface + ';color:' + t.ink + ';box-shadow:0 1px 3px rgba(0,0,0,0.12);' : 'background:transparent;color:' + t.ink2 + ';');
+    return {
+      t: t, S: S, chip: chip, dark: dark, en: en, nav: nav, seg: seg,
+      tr: (id, e) => (en ? e : id),
+      rp: (n) => 'Rp' + Number(n).toLocaleString('id-ID'),
+      brandSub: en ? '9 rooms' : '9 kamar', role: en ? 'Owner' : 'Pemilik',
+      themeLabel: dark ? (en ? 'Light mode' : 'Mode terang') : (en ? 'Dark mode' : 'Mode gelap'),
+      isDark: dark, isLight: !dark, isId: !en,
+      idStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(!en), enStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(en), logoutLabel: en ? 'Sign out' : 'Keluar',
+      dangerBg: dark ? '#271B17' : '#FFF5F1', dangerLine: dark ? '#5E3428' : '#E3B4A6', dangerInk: dark ? '#F2A58E' : '#A13A20',
+      toggleTheme: () => this.setPref('theme', dark ? 'light' : 'dark'),
+      setId: () => this.setPref('lang', 'id'), setEn: () => this.setPref('lang', 'en')
+    };
+  }
+  renderVals() {
+    const sh = this.shell('people');
+    const t = sh.t, tr = sh.tr, rp = sh.rp, s = this.state;
+    const L = {
+      title: tr('Penghuni', 'Tenants'), sub: tr('7 aktif · 3 arsip', '7 active · 3 archived'), add: tr('+ Penghuni baru', '+ New tenant'),
+      active: tr('Aktif (7)', 'Active (7)'), archive: tr('Arsip (3)', 'Archived (3)'), edit: tr('Ubah', 'Edit'),
+      personal: tr('Data diri', 'Personal details'), ktp: tr('Foto KTP', 'ID card photo'), ktpNote: tr('Tersimpan terenkripsi · hanya Anda yang bisa melihat', 'Stored encrypted · only you can view it'), ktpPh: tr('[Foto KTP penghuni]', '[Tenant ID card photo]'),
+      history: tr('Riwayat pembayaran', 'Payment history'), move: tr('Pindah kamar', 'Change room'), checkout: tr('Check-out', 'Check out'),
+      close: tr('Tutup', 'Close'), outDate: tr('Tanggal keluar', 'Move-out date'), full: tr('Kembali penuh', 'Full refund'), part: tr('Dipotong', 'Deduct'),
+      cut: tr('Potongan', 'Deduction'), reason: tr('Alasan', 'Reason'), reasonPh: tr('mis. kunci hilang', 'e.g. lost key'), cancel: tr('Batal', 'Cancel'), confirm: tr('Konfirmasi check-out', 'Confirm check-out')
+    };
+    const M = (id, e) => tr(id, e);
+    const active = [
+      { id: '201', name: 'Sinta Maharani', phone: '0821-7788-1020', job: M('Mahasiswi', 'Student'), from: 'Semarang', emer: M('Ibu · 0812-4400-1122', 'Mother · 0812-4400-1122'), since: M('10 Sep 2025', '10 Sep 2025'), due: 10, price: 1500000, k: 'late', chip: M('Telat 5 hari', '5 days late') },
+      { id: '101', name: 'Andi Pratama', phone: '0812-3456-7810', job: M('Karyawan swasta', 'Office worker'), from: 'Klaten', emer: M('Kakak · 0813-1100-2233', 'Brother · 0813-1100-2233'), since: M('17 Mar 2025', '17 Mar 2025'), due: 17, price: 1200000, k: 'due', chip: M('Jatuh tempo 17 Nov', 'Due 17 Nov') },
+      { id: '204', name: 'Fajar Nugroho', phone: '0896-1234-0087', job: M('Mahasiswa', 'Student'), from: 'Purwokerto', emer: M('Belum diisi', 'Not filled in'), since: M('20 Jun 2026', '20 Jun 2026'), due: 20, price: 1500000, k: 'due', chip: M('Jatuh tempo 20 Nov', 'Due 20 Nov') },
+      { id: '202', name: 'Budi Santoso', phone: '0812-6655-2299', job: M('Wiraswasta', 'Self-employed'), from: 'Solo', emer: M('Istri · 0857-2200-3344', 'Wife · 0857-2200-3344'), since: M('1 Feb 2025', '1 Feb 2025'), due: 1, price: 1500000, k: 'paid', chip: M('Lunas', 'Paid') },
+      { id: '104', name: 'Dewi Lestari', phone: '0857-9012-3344', job: M('Perawat', 'Nurse'), from: 'Magelang', emer: M('Belum diisi', 'Not filled in'), since: M('12 Jan 2026', '12 Jan 2026'), due: 12, price: 1200000, k: 'paid', chip: M('Lunas', 'Paid') },
+      { id: '205', name: 'Maya Putri', phone: '0838-4455-6677', job: M('Guru', 'Teacher'), from: 'Kudus', emer: M('Ayah · 0812-9900-8877', 'Father · 0812-9900-8877'), since: M('3 Des 2024', '3 Dec 2024'), due: 3, price: 1500000, k: 'paid', chip: M('Lunas · keluar 30 Nov', 'Paid · leaving 30 Nov') },
+      { id: '102', name: 'Rina Kurnia', phone: '0813-2211-4590', job: M('Mahasiswi', 'Student'), from: 'Pati', emer: M('Ibu · 0812-7766-5544', 'Mother · 0812-7766-5544'), since: M('5 Agu 2024', '5 Aug 2024'), due: 5, price: 1200000, k: 'paid', chip: M('Lunas', 'Paid') }
+    ];
+    const archive = [
+      { id: '103', name: 'Yoga Saputra', phone: '0815-3322-1100', job: M('Karyawan swasta', 'Office worker'), from: 'Boyolali', emer: '—', since: M('Mar – Okt 2026', 'Mar – Oct 2026'), due: 1, price: 1200000, k: 'out', chip: M('Deposit kembali', 'Deposit refunded'), archived: true },
+      { id: '201', name: 'Lia Anggraini', phone: '0819-4433-2211', job: M('Mahasiswi', 'Student'), from: 'Demak', emer: '—', since: M('2024 – Agu 2025', '2024 – Aug 2025'), due: 1, price: 1500000, k: 'out', chip: M('Deposit dipotong', 'Deposit deducted'), archived: true },
+      { id: '104', name: 'Rendra Wijaya', phone: '0812-1010-2020', job: M('Wiraswasta', 'Self-employed'), from: 'Salatiga', emer: '—', since: M('2025 – Des 2025', '2025 – Dec 2025'), due: 1, price: 1200000, k: 'out', chip: M('Deposit kembali', 'Deposit refunded'), archived: true }
+    ];
+    const isArchive = s.tab === 'archive';
+    const src = isArchive ? archive : active;
+    const selKey = (p) => p.name;
+    const curName = (src.find((p) => selKey(p) === s.sel) || src.find((p) => p.id === s.sel) || src[0]).name;
+    const monthsId = ['Nov 2026', 'Okt 2026', 'Sep 2026', 'Agu 2026'], monthsEn = ['Nov 2026', 'Oct 2026', 'Sep 2026', 'Aug 2026'];
+    const mOf = (i) => tr(monthsId[i], monthsEn[i]);
+    const shortM = [tr('Nov', 'Nov'), tr('Okt', 'Oct'), tr('Sep', 'Sep'), tr('Agu', 'Aug')];
+    const build = (p) => {
+      const selected = p.name === curName;
+      const initials = p.name.split(' ').map((w) => w[0]).slice(0, 2).join('');
+      const av = (size) => 'flex:none;width:' + size + 'px;height:' + size + 'px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size / 3) + 'px;font-weight:800;' + (p.archived ? 'background:' + t.sunken + ';color:' + t.ink2 + ';' : 'background:' + t.soft + ';color:' + t.softInk + ';');
+      const history = [0, 1, 2, 3].map((i) => {
+        let k = 'paid', chip = tr('Lunas', 'Paid'), note = tr('Dibayar ', 'Paid ') + p.due + ' ' + shortM[i] + ' · Transfer';
+        if (i === 0 && !p.archived && p.k !== 'paid') { k = p.k; chip = p.k === 'late' ? tr('Belum bayar', 'Unpaid') : tr('Belum jatuh tempo', 'Not yet due'); note = tr('Jatuh tempo ', 'Due ') + p.due + ' Nov'; }
+        if (p.name === 'Sinta Maharani' && i === 3) { k = 'due'; chip = tr('Telat 2 hari', '2 days late'); note = tr('Dibayar 12 Agu · Transfer', 'Paid 12 Aug · Transfer'); }
+        return { month: mOf(i), note: note, amount: rp(p.price), chip: chip, chipStyle: sh.chip(k) };
+      });
+      return Object.assign({}, p, {
+        selected: selected, initials: initials, active: !p.archived,
+        sub: tr('Kamar ', 'Room ') + p.id + ' · ' + p.since,
+        headline: tr('Kamar ', 'Room ') + p.id + ' · ' + p.job + ' · ' + p.from,
+        chipText: p.chip, chipStyle: sh.chip(p.k),
+        avatar: av(42), avatarLg: av(64),
+        rowStyle: 'display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;text-align:left;color:' + t.ink + ';border:1px solid ' + (selected ? t.accent : 'transparent') + ';background:' + (selected ? t.soft : 'transparent') + ';',
+        facts: [
+          { k: tr('Sewa / bulan', 'Rent / month'), v: rp(p.price) },
+          { k: tr('Jatuh tempo', 'Due date'), v: tr('Tiap tgl ', 'Day ') + p.due },
+          { k: p.archived ? tr('Periode tinggal', 'Stay period') : tr('Mulai tinggal', 'Moved in'), v: p.since },
+          { k: tr('Deposit', 'Deposit'), v: p.archived ? p.chip : rp(p.price) + tr(' ditahan', ' held') }
+        ],
+        personal: [
+          { k: tr('No. WhatsApp', 'WhatsApp'), v: p.phone }, { k: tr('Pekerjaan', 'Occupation'), v: p.job },
+          { k: tr('Asal', 'Hometown'), v: p.from }, { k: tr('Kontak darurat', 'Emergency contact'), v: p.emer }
+        ],
+        history: history,
+        pick: () => this.setState({ sel: p.name, ktp: false })
+      });
+    };
+    const list = src.map(build);
+    const sel = list.find((p) => p.selected) || list[0];
+    const opt = (on) => 'height:44px;border-radius:12px;font-size:14px;font-weight:700;' + (on ? 'background:' + t.accent + ';color:#FFFFFF;border:1px solid ' + t.accent + ';' : 'background:' + t.surface + ';color:' + t.ink + ';border:1px solid ' + t.btnLine + ';');
+    return Object.assign(sh, {
+      L: L, list: list, sel: sel,
+      segActive: sh.seg(!isArchive), segArchive: sh.seg(isArchive),
+      showActive: () => this.setState({ tab: 'active', sel: 'Sinta Maharani' }),
+      showArchive: () => this.setState({ tab: 'archive', sel: 'Yoga Saputra' }),
+      ktpOpen: s.ktp, ktpLabel: s.ktp ? tr('Sembunyikan', 'Hide') : tr('Lihat', 'View'),
+      toggleKtp: () => this.setState({ ktp: !s.ktp }),
+      checkout: s.checkout,
+      coTitle: tr('Check-out ', 'Check out ') + sel.name.split(' ')[0],
+      coSub: tr('Kamar ', 'Room ') + sel.id + tr(' akan berstatus Kosong setelah tanggal keluar.', ' becomes Vacant after the move-out date.'),
+      coDeposit: tr('Deposit ', 'Deposit ') + rp(sel.price),
+      openCheckout: () => this.setState({ checkout: true }), closeCheckout: () => this.setState({ checkout: false }),
+      isPart: s.deposit === 'part', optFull: opt(s.deposit === 'full'), optPart: opt(s.deposit === 'part'),
+      fullBack: () => this.setState({ deposit: 'full' }), partBack: () => this.setState({ deposit: 'part' })
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Damar Kost web — Beranda</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{color:#3B4A2C}a:hover{color:#2C3820}
+</style>
+</helmet>
+<div style="min-height: 900px; background: {{t.bg}}; font-family: 'Manrope', system-ui, sans-serif; color: {{t.ink}}; display: flex; flex-wrap: wrap; align-items: stretch">
+  <aside style="position: relative; flex: 1 1 248px; max-width: 100%; box-sizing: border-box; padding: 26px 16px 20px; background: {{t.sideBg}}; color: {{t.sideInk}}; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
+    <a href="Desktop.dc.html" aria-label="Damar Kost" style="display: flex; align-items: center; gap: 10px; padding: 0 6px; text-decoration: none; color: {{t.sideInk}}">
+      <svg width="58" height="36" viewBox="14 4 214 128" fill="none" aria-hidden="true"><path d="M92 70 152 22 214 70" stroke="{{t.sWood}}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M110 66v58h96V66" stroke="{{t.sWood}}" stroke-width="5"></path><rect x="141" y="42" width="18" height="18" stroke="{{t.sWood}}" stroke-width="4"></rect><rect x="164" y="84" width="26" height="40" fill="{{t.sDoor}}"></rect><path d="M36 128h190" stroke="{{t.sWood}}" stroke-width="5" stroke-linecap="round"></path><path d="M62 126V54" stroke="{{t.sLeaf}}" stroke-width="4"></path><path d="M62 66c-12-6-16-18-10-28 10 4 14 16 10 28zM62 80c12-6 18-18 12-30-10 6-14 18-12 30zM62 96c-14-4-22-14-18-26 12 2 18 14 18 26zM62 108c14-2 22-12 20-24-12 2-20 12-20 24zM62 56c-6-8-6-18 0-24 6 6 6 16 0 24z" fill="{{t.sLeaf}}"></path><path d="M80 126c4-20 16-32 32-36-2 18-14 32-32 36zM40 126c-6-14-2-28 8-36 6 14 2 28-8 36z" fill="{{t.sLeaf2}}"></path></svg>
+      <span style="display: flex; flex-direction: column; gap: 4px; line-height: 1"><span style="font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; letter-spacing: 0.06em">DAMAR</span><span style="display: flex; align-items: center; gap: 6px; color: {{t.sWood}}"><span style="width: 14px; height: 1.5px; background: currentColor"></span><span style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em">KOST</span><span style="width: 14px; height: 1.5px; background: currentColor"></span></span></span>
+    </a>
+    <nav aria-label="Menu" style="position: relative; display: flex; flex-direction: column; gap: 4px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="7">
+        <a href="{{n.href}}" style="{{n.style}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d1}}"></path><path d="{{n.d2}}"></path></svg>{{n.label}}</a>
+      </sc-for>
+    </nav>
+    <div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; gap: 8px">
+        <div role="group" aria-label="Bahasa / Language" style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.08)">
+          <button onClick="{{setId}}" aria-pressed="{{isId}}" style="{{idStyle}}">ID</button>
+          <button onClick="{{setEn}}" aria-pressed="{{en}}" style="{{enStyle}}">EN</button>
+        </div>
+        <button onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="flex: none; width: 40px; height: 38px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.08); color: {{t.sideInk}}; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+          <sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        </button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,0.08)">
+        <span style="flex: none; width: 38px; height: 38px; border-radius: 999px; background: {{t.sWood}}; color: {{t.sideBg}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">BR</span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0"><span style="font-size: 14px; font-weight: 700">Bu Ratna</span><span style="font-size: 12px; color: {{t.sideInk2}}">{{role}}</span></span>
+        <a href="DLogin.dc.html" aria-label="{{logoutLabel}}" title="{{logoutLabel}}" style="flex: none; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: {{t.sideInk}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg></a>
+      </div>
+    </div>
+    <svg width="200" height="160" viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; left: -40px; bottom: 90px; opacity: 0.08"><path d="M60 90C62 50 84 18 120 6 116 46 94 78 60 90zM60 90C46 62 22 46 0 44c6 26 30 44 60 46z" fill="#FFFFFF"></path></svg>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px clamp(16px, 3vw, 40px) 48px">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 14px; color: {{t.ink2}}; font-weight: 500">{{L.date}}</span>
+          <h1 style="margin: 0; font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; letter-spacing: 0.02em">{{L.hello}}</h1>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <a href="DPengeluaran.dc.html" style="display: flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700; text-decoration: none; box-sizing: border-box">{{L.addExp}}</a>
+          <a href="DTagihan.dc.html" style="display: flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 12px; background: {{t.accent}}; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none; box-sizing: border-box">{{L.addPay}}</a>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 20px; background: {{heroBg}}; color: #FFFFFF">
+          <span style="font-size: 14px; font-weight: 500; opacity: 0.9">{{L.income}}</span>
+          <span style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap"><span style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em">Rp5.400.000</span><span style="font-size: 14px; opacity: 0.85">{{L.of}}</span></span>
+          <span style="height: 8px; border-radius: 999px; background: rgba(255,255,255,0.22); overflow: hidden; display: block"><span style="display: block; height: 8px; width: 56%; border-radius: 999px; background: #FFFFFF"></span></span>
+          <span style="font-size: 13px; opacity: 0.9">{{L.progress}}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+          <span style="font-size: 14px; color: {{t.ink2}}; font-weight: 600">{{L.occ}}</span>
+          <span style="font-size: 30px; font-weight: 800">7<span style="font-size: 18px; color: {{t.ink2}}; font-weight: 600"> / 9 {{L.roomsW}}</span></span>
+          <span style="font-size: 13px; color: {{t.ink2}}">{{L.occNote}}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+          <span style="font-size: 14px; color: {{t.ink2}}; font-weight: 600">{{L.profit}}</span>
+          <span style="font-size: 30px; font-weight: 800; color: {{goodInk}}">Rp3.680.000</span>
+          <span style="font-size: 13px; color: {{t.ink2}}">{{L.exp}}</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; align-items: start">
+        <section style="display: flex; flex-direction: column; gap: 4px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px">
+            <h2 style="margin: 0; font-size: 18px; font-weight: 700">{{L.toCollect}}</h2>
+            <a href="DTagihan.dc.html" style="font-size: 14px; font-weight: 600; color: {{t.softInk}}; text-decoration: none">{{L.allBills}}</a>
+          </div>
+          <sc-for list="{{unpaid}}" as="r" hint-placeholder-count="3">
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid {{t.line2}}; flex-wrap: wrap">
+              <span style="flex: none; width: 40px; height: 40px; border-radius: 999px; background: {{t.soft}}; color: {{t.softInk}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">{{r.initials}}</span>
+              <span style="display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px">
+                <span style="font-size: 15px; font-weight: 700">{{r.name}} <span style="font-weight: 500; color: {{t.ink2}}">· {{r.room}}</span></span>
+                <span style="{{r.chipStyle}}">{{r.chip}}</span>
+              </span>
+              <span style="font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums">{{r.price}}</span>
+              <span style="display: flex; gap: 8px">
+                <button style="height: 40px; padding: 0 12px; border-radius: 12px; border: 1px solid {{t.waLine}}; background: {{t.waBg}}; color: {{t.waInk}}; font-size: 14px; font-weight: 700">{{L.remind}}</button>
+                <a href="DTagihan.dc.html" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 12px; background: {{t.accent}}; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none; box-sizing: border-box">{{L.record}}</a>
+              </span>
+            </div>
+          </sc-for>
+        </section>
+
+        <section style="position: relative; display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 28px; background: {{t.sky}}; overflow: hidden">
+          <svg width="160" height="120" viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; right: -20px; top: -18px; opacity: 0.3"><path d="M60 90C62 50 84 18 120 6 116 46 94 78 60 90zM60 90C46 62 22 46 0 44c6 26 30 44 60 46z" fill="{{t.leaf2}}"></path></svg>
+          <div style="position: relative; display: flex; align-items: center; justify-content: space-between"><h2 style="margin: 0; font-size: 18px; font-weight: 800">{{L.map}}</h2><a href="DKamar.dc.html" style="font-size: 14px; font-weight: 700; color: {{t.softInk}}; text-decoration: none">{{L.openMap}}</a></div>
+          <div style="position: relative; padding: 0 2px">
+  <svg viewBox="0 0 340 70" width="100%" height="86" preserveAspectRatio="none" aria-hidden="true" style="display: block">
+    <path d="M24 68 170 8 316 68Z" fill="{{t.roof}}"></path>
+    <path d="M12 70 170 6 328 70" fill="none" stroke="{{t.woodLine}}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+    <rect x="159" y="32" width="22" height="20" rx="2" fill="{{t.facade}}" stroke="{{t.woodLine}}" stroke-width="2.5" vector-effect="non-scaling-stroke"></rect>
+  </svg>
+  <div style="margin: -3px 44px 0; padding: 10px 10px 0; background: {{t.facade}}; border-left: 3px solid {{t.woodLine}}; border-right: 3px solid {{t.woodLine}}; display: flex; flex-direction: column; gap: 6px">
+    <sc-for list="{{houseFloors}}" as="fl" hint-placeholder-count="2">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.1em; color: {{t.ink2}}">{{fl.label}}</span>
+        <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end">
+          <sc-for list="{{fl.items}}" as="w" hint-placeholder-count="5">
+            <sc-if value="{{w.isRoom}}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{w.open}}" aria-label="{{w.aria}}" style="{{w.winStyle}}"><span style="font-size: 17px; font-weight: 800">{{w.id}}</span><span style="{{w.tagStyle}}">{{w.tag}}</span></button>
+            </sc-if>
+            <sc-if value="{{w.isDoor}}" hint-placeholder-val="{{ false }}">
+              <div aria-hidden="true" style="height: 82px; border-radius: 10px 10px 0 0; background: {{t.door}}; display: flex; justify-content: center; gap: 6px; padding-top: 10px; box-sizing: border-box"><span style="width: 2px; background: rgba(0,0,0,0.18)"></span><span style="width: 2px; background: rgba(0,0,0,0.18)"></span><span style="width: 2px; background: rgba(0,0,0,0.18)"></span></div>
+            </sc-if>
+          </sc-for>
+        </div>
+        <sc-if value="{{fl.divider}}" hint-placeholder-val="{{ true }}"><div style="height: 3px; margin: 4px -10px 2px; background: {{t.woodLine}}"></div></sc-if>
+      </div>
+    </sc-for>
+  </div>
+  <div style="height: 4px; margin: 0 4px; border-radius: 2px; background: {{t.woodLine}}"></div>
+  <svg width="34" height="74" viewBox="0 0 34 74" aria-hidden="true" style="position: absolute; left: -6px; bottom: 3px"><path d="M17 74V12" stroke="{{t.leaf}}" stroke-width="2.5"></path><path d="M17 22c-9-4-12-13-8-20 8 3 11 12 8 20zM17 34c9-4 13-13 9-21-8 4-11 13-9 21zM17 48c-10-3-15-11-12-19 9 2 13 11 12 19zM17 60c10-2 15-10 13-18-9 2-14 10-13 18z" fill="{{t.leaf}}"></path></svg>
+  <svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true" style="position: absolute; right: -8px; bottom: 3px"><path d="M22 40c3-14 11-22 22-24-2 13-11 22-22 24zM22 40c-3-14-11-22-22-24 2 13 11 22 22 24zM22 40c-2-16 0-28 0-36 4 8 4 24 0 36z" fill="{{t.leaf2}}"></path></svg>
+</div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: {{t.ink2}}; font-weight: 600">
+            <sc-for list="{{legend}}" as="g" hint-placeholder-count="5"><span style="display: flex; align-items: center; gap: 6px"><span style="{{g.sw}}"></span>{{g.label}}</span></sc-for>
+          </div>
+        </section>
+      </div>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+        <sc-for list="{{alerts}}" as="a" hint-placeholder-count="3">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 20px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <span style="{{a.iconStyle}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{a.d}}"></path></svg></span>
+            <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">{{a.title}}</span><span style="font-size: 13px; color: {{t.ink2}}">{{a.sub}}</span></span>
+          </div>
+        </sc-for>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3B4A2C","options":["#3B4A2C","#2D5A85","#8A6440","#4E4870"]},"theme":{"editor":"enum","default":"light","options":["light","dark"]},"lang":{"editor":"enum","default":"id","options":["id","en"]},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = {};
+    try { saved = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; } catch (e) { saved = {}; }
+    this.state = { theme: saved.theme || null, lang: saved.lang || null };
+  }
+  setPref(k, v) {
+    const p = {}; p[k] = v; this.setState(p);
+    try { const cur = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; cur[k] = v; window.localStorage.setItem('kc-prefs', JSON.stringify(cur)); } catch (e) {}
+  }
+  shell(active) {
+    const dark = (this.state.theme || this.props.theme || 'light') === 'dark';
+    const en = (this.state.lang || this.props.lang || 'id') === 'en';
+    const accent = this.props.accent ?? '#3B4A2C';
+    const t = dark
+      ? { bg: '#14150F', surface: '#1D1F17', sunken: '#25281E', line: '#33362A', line2: '#2A2D22', ink: '#EDEBE2', ink2: '#ADAA9A', ink3: '#D2CFC2', soft: '#2D3522', softInk: '#C9D7A8', field: '#423F33', btnLine: '#423F33', waBg: '#252C1C', waLine: '#3E4A2E', waInk: '#C9D7A8', track: '#33362A', bubble: '#283420' }
+      : { bg: '#FBF9F3', surface: '#FFFFFF', sunken: '#FBF9F3', line: '#EAE4D8', line2: '#F0EBE1', ink: '#26251D', ink2: '#6A6656', ink3: '#45433A', soft: '#EEF0E4', softInk: '#3B4A2C', field: '#D8CFBE', btnLine: '#DDD5C6', waBg: '#F1F4EA', waLine: '#D6DEC6', waInk: '#47662A', track: '#F0EBE1', bubble: '#E6EEDA' };
+    Object.assign(t, dark ? { leaf: '#C9D7A8', leaf2: '#9DB27A', woodLine: '#C99A6E', door: '#8A6440', facade: '#1D1F17', roof: '#2A2D22', sky: '#22241B' } : { leaf: '#3B4A2C', leaf2: '#6E8450', woodLine: '#9A7149', door: '#B8926A', facade: '#FFFDF8', roof: '#F3E8D8', sky: '#F4EEE2' });
+    t.accent = accent; t.wood = dark ? '#C99A6E' : '#9A7149'; Object.assign(t, dark ? { sideBg: '#0F100B', sideInk: '#EDEBE2', sideInk2: 'rgba(237,235,226,0.62)', sideActiveBg: '#2D3522', sideActiveInk: '#C9D7A8', sLeaf: '#C9D7A8', sLeaf2: '#9DB27A', sWood: '#C99A6E', sDoor: '#8A6440' } : { sideBg: '#2F3B24', sideInk: '#F4F1E6', sideInk2: 'rgba(244,241,230,0.68)', sideActiveBg: '#FBF9F3', sideActiveInk: '#2F3B24', sLeaf: '#C9D7A8', sLeaf2: '#A9BE86', sWood: '#D9B48C', sDoor: '#B8926A' });
+    const S = dark
+      ? { paid: { c: 'background:#283420;color:#BFD49A;', tile: 'background:#1D1F17;border:1px solid #33362A;' }, due: { c: 'background:#3A2E14;color:#F0C46A;', tile: 'background:#221E15;border:1px solid #5A4722;' }, late: { c: 'background:#43221A;color:#F2A58E;', tile: 'background:#271B17;border:1px solid #5E3428;' }, empty: { c: 'background:#1C2C3D;color:#9DC0E6;', tile: 'background:#172029;border:1.5px dashed #3F5A78;' }, repair: { c: 'background:#2B2840;color:#C4BEE6;', tile: 'background:#1F1D29;border:1px solid #444060;' } }
+      : { paid: { c: 'background:#E7EEDB;color:#47662A;', tile: 'background:#FFFFFF;border:1px solid #E6DFD2;' }, due: { c: 'background:#FBF0D9;color:#7A5200;', tile: 'background:#FFFBF2;border:1px solid #EFD9A8;' }, late: { c: 'background:#FBE4DC;color:#A13A20;', tile: 'background:#FFF5F1;border:1px solid #EDC2B3;' }, empty: { c: 'background:#E4EDF6;color:#2D5A85;', tile: 'background:#F4F8FC;border:1.5px dashed #A9C0D8;' }, repair: { c: 'background:#ECEAF3;color:#4E4870;', tile: 'background:#F7F6FA;border:1px solid #D9D5E7;' } };
+    const chip = (k) => 'display:inline-flex;align-self:flex-start;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;line-height:16px;white-space:nowrap;' + S[k].c;
+    const NAV = [
+      ['home', 'Beranda', 'Home', 'Desktop.dc.html', 'M3 10.5 12 3l9 7.5', 'M5 9.5V21h14V9.5'],
+      ['rooms', 'Kamar', 'Rooms', 'DKamar.dc.html', 'M3 3h7v7H3zM14 3h7v7h-7z', 'M3 14h7v7H3zM14 14h7v7h-7z'],
+      ['bills', 'Tagihan', 'Bills', 'DTagihan.dc.html', 'M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z', 'M9 8h6M9 12h6'],
+      ['people', 'Penghuni', 'Tenants', 'DPenghuni.dc.html', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7.5'],
+      ['exp', 'Pengeluaran', 'Expenses', 'DPengeluaran.dc.html', 'M2 6h20v12H2z', 'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'],
+      ['report', 'Laporan', 'Reports', 'DLaporan.dc.html', 'M4 20V10M10 20V4M16 20v-7', 'M2 20h20'],
+      ['settings', 'Pengaturan', 'Settings', 'DPengaturan.dc.html', 'M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11', 'M15 4v4M9 10v4M17 16v4']
+    ];
+    const nav = NAV.map((n) => ({ label: en ? n[2] : n[1], href: n[3], d1: n[4], d2: n[5],
+      style: 'display:flex;align-items:center;gap:12px;min-height:46px;padding:0 14px;border-radius:14px;text-decoration:none;font-size:15px;font-weight:' + (n[0] === active ? '700;background:' + t.sideActiveBg + ';color:' + t.sideActiveInk : '600;background:transparent;color:' + t.sideInk2) + ';' }));
+    const seg = (on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:' + t.surface + ';color:' + t.ink + ';box-shadow:0 1px 3px rgba(0,0,0,0.12);' : 'background:transparent;color:' + t.ink2 + ';');
+    return {
+      t: t, S: S, chip: chip, dark: dark, en: en, nav: nav,
+      tr: (id, e) => (en ? e : id),
+      brandSub: en ? '9 rooms' : '9 kamar', role: en ? 'Owner' : 'Pemilik',
+      themeLabel: dark ? (en ? 'Light mode' : 'Mode terang') : (en ? 'Dark mode' : 'Mode gelap'),
+      isDark: dark, isLight: !dark, isId: !en,
+      idStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(!en), enStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(en), logoutLabel: en ? 'Sign out' : 'Keluar',
+      goodInk: dark ? '#BFD49A' : '#47662A', heroBg: dark ? '#2E3A22' : accent,
+      toggleTheme: () => this.setPref('theme', dark ? 'light' : 'dark'),
+      setId: () => this.setPref('lang', 'id'), setEn: () => this.setPref('lang', 'en')
+    };
+  }
+  renderVals() {
+    const sh = this.shell('home');
+    const t = sh.t, tr = sh.tr, S = sh.S, dark = sh.dark;
+    const L = {
+      date: tr('Minggu, 15 Nov 2026', 'Sunday, 15 Nov 2026'), hello: tr('Halo, Bu Ratna', 'Hello, Bu Ratna'),
+      addExp: tr('Catat pengeluaran', 'Add expense'), addPay: tr('+ Catat pembayaran', '+ Record payment'),
+      income: tr('Pemasukan November', 'November income'), of: tr('dari Rp9.600.000', 'of Rp9.600.000'), progress: tr('56% terkumpul · sisa Rp4.200.000', '56% collected · Rp4.200.000 left'),
+      occ: tr('Okupansi', 'Occupancy'), roomsW: tr('kamar', 'rooms'), occNote: tr('1 kosong · 1 perbaikan', '1 vacant · 1 under repair'),
+      profit: tr('Laba bersih (s.d. hari ini)', 'Net profit (to date)'), exp: tr('Pengeluaran Rp1.720.000', 'Expenses Rp1.720.000'),
+      toCollect: tr('Perlu ditagih', 'To collect'), allBills: tr('Semua tagihan', 'All bills'), remind: tr('Ingatkan WA', 'WhatsApp'), record: tr('Catat bayar', 'Record'),
+      map: tr('Denah kamar', 'Room map'), openMap: tr('Buka Kamar', 'Open Rooms')
+    };
+    const T = { paid: tr('Lunas', 'Paid'), empty: tr('Kosong', 'Vacant'), repair: tr('Perbaikan', 'Repair') };
+    const R = [
+      ['101', 1, 'Andi', 'due', tr('17 Nov', 'Due 17 Nov')], ['102', 1, 'Rina', 'paid', T.paid], ['103', 1, T.empty, 'empty', T.empty], ['104', 1, 'Dewi', 'paid', T.paid],
+      ['201', 2, 'Sinta', 'late', tr('Telat 5 hr', '5d late')], ['202', 2, 'Budi', 'paid', T.paid], ['203', 2, T.repair, 'repair', tr('Servis AC', 'AC service')], ['204', 2, 'Fajar', 'due', tr('20 Nov', 'Due 20 Nov')], ['205', 2, 'Maya', 'paid', T.paid]
+    ].map((a) => ({ id: a[0], floor: a[1], label: a[2], key: a[3], tagText: a[3] === 'paid' || a[3] === 'empty' ? a[4] : a[4], chip: a[4], chipStyle: sh.chip(a[3]),
+      tileStyle: 'display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:10px;min-height:96px;border-radius:14px;text-decoration:none;color:' + t.ink + ';box-sizing:border-box;min-width:0;' + S[a[3]].tile }));
+    const unpaid = [
+      { name: 'Sinta Maharani', initials: 'SM', room: tr('Kamar 201', 'Room 201'), price: 'Rp1.500.000', chip: tr('Telat 5 hari', '5 days late'), k: 'late' },
+      { name: 'Andi Pratama', initials: 'AP', room: tr('Kamar 101', 'Room 101'), price: 'Rp1.200.000', chip: tr('Jatuh tempo 17 Nov', 'Due 17 Nov'), k: 'due' },
+      { name: 'Fajar Nugroho', initials: 'FN', room: tr('Kamar 204', 'Room 204'), price: 'Rp1.500.000', chip: tr('Jatuh tempo 20 Nov', 'Due 20 Nov'), k: 'due' }
+    ].map((u) => Object.assign(u, { chipStyle: sh.chip(u.k) }));
+    const ic = (bg, fg) => 'flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:' + bg + ';color:' + fg + ';';
+    const alerts = [
+      { title: tr('Maya keluar 30 Nov', 'Maya leaves on 30 Nov'), sub: tr('Kamar 205 · siapkan pengembalian deposit', 'Room 205 · prepare the deposit refund'), d: 'M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10', iconStyle: dark ? ic('#3A2E14', '#F0C46A') : ic('#FBF0D9', '#7A5200') },
+      { title: tr('Kamar 203 servis AC', 'Room 203 AC service'), sub: tr('Perkiraan selesai 18 Nov', 'Expected done 18 Nov'), d: 'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z', iconStyle: dark ? ic('#2B2840', '#C4BEE6') : ic('#ECEAF3', '#4E4870') },
+      { title: tr('Kamar 103 kosong 14 hari', 'Room 103 vacant for 14 days'), sub: tr('Bagikan info kamar ke calon penghuni', 'Share the room with prospective tenants'), d: 'M6 21V4h12v17M3 21h18M14.5 12h.01', iconStyle: dark ? ic('#1C2C3D', '#9DC0E6') : ic('#E4EDF6', '#2D5A85') }
+    ];
+
+    const W = sh.dark ? {
+      paid: 'background:#283420;border:1.5px solid #4D6136;', due: 'background:#3A2E14;border:1.5px solid #6B5422;', late: 'background:#43221A;border:1.5px solid #7A3C2B;',
+      empty: 'background:transparent;border:1.5px dashed #5C7A9A;', repair: 'background:#2B2840;border:1.5px solid #4F4970;'
+    } : {
+      paid: 'background:#E7EEDB;border:1.5px solid #B9CB9B;', due: 'background:#FBF0D9;border:1.5px solid #E2C27F;', late: 'background:#FBE4DC;border:1.5px solid #DFA18B;',
+      empty: 'background:transparent;border:1.5px dashed #8FA9C6;', repair: 'background:#ECEAF3;border:1.5px solid #C3BCD9;'
+    };
+    const tagInk = sh.dark ? { paid: '#BFD49A', due: '#F0C46A', late: '#F2A58E', empty: '#9DC0E6', repair: '#C4BEE6' } : { paid: '#47662A', due: '#7A5200', late: '#A13A20', empty: '#2D5A85', repair: '#4E4870' };
+    const legendDot = sh.dark ? { paid: '#93AE6A', due: '#E0A33A', late: '#D9694C', empty: '#6F8FB0', repair: '#8F88B5' } : { paid: '#6E8F45', due: '#E0A33A', late: '#C85A3E', empty: '#6F8FB0', repair: '#A9A3C4' };
+    const LG = { paid: sh.tr('Lunas', 'Paid'), due: sh.tr('Jatuh tempo', 'Due'), late: sh.tr('Telat', 'Late'), empty: sh.tr('Kosong', 'Vacant'), repair: sh.tr('Perbaikan', 'Repair') };
+    const legend = ['paid', 'due', 'late', 'empty', 'repair'].map((k) => ({ label: LG[k], sw: 'width:12px;height:12px;border-radius:4px;' + (k === 'empty' ? 'border:1.5px dashed ' + legendDot[k] + ';' : 'background:' + legendDot[k] + ';') }));
+    const win = (r, open, selected) => ({ isRoom: true, isDoor: false, id: r.id, open: open, aria: r.id + ', ' + r.tagText, tag: r.tagText,
+      tagStyle: 'font-size:12px;font-weight:800;color:' + tagInk[r.key] + ';max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;',
+      winStyle: 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:82px;padding:6px 4px;border-radius:16px 16px 6px 6px;color:' + sh.t.ink + ';box-sizing:border-box;min-width:0;' + W[r.key] + (selected ? 'outline:3px solid ' + sh.t.accent + ';outline-offset:2px;' : '') });
+    const door = { isRoom: false, isDoor: true };
+    const byId = {}; R.forEach((r) => { byId[r.id] = r; });
+    const w = (id) => win(byId[id], () => {}, false);
+    const houseFloors = [
+      { label: sh.tr('LANTAI 2', 'FLOOR 2'), divider: true, items: ['201', '202', '203', '204', '205'].map(w) },
+      { label: sh.tr('LANTAI 1', 'FLOOR 1'), divider: false, items: [w('101'), w('102'), door, w('103'), w('104')] }
+    ];
+    return Object.assign(sh, {
+      L: L, unpaid: unpaid, alerts: alerts, houseFloors: houseFloors, legend: legend,
+      floors: [{ label: tr('Lantai 1', 'Floor 1'), rooms: R.filter((r) => r.floor === 1) }, { label: tr('Lantai 2', 'Floor 2'), rooms: R.filter((r) => r.floor === 2) }]
+    });
+  }
+}
+</script>
+</body>
+</html>

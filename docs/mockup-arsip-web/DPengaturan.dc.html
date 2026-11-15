@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Damar Kost web — Pengaturan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{color:#3B4A2C}a:hover{color:#2C3820}
+</style>
+</helmet>
+<div style="min-height: 1000px; background: {{t.bg}}; font-family: 'Manrope', system-ui, sans-serif; color: {{t.ink}}; display: flex; flex-wrap: wrap; align-items: stretch">
+  <aside style="position: relative; flex: 1 1 248px; max-width: 100%; box-sizing: border-box; padding: 26px 16px 20px; background: {{t.sideBg}}; color: {{t.sideInk}}; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
+    <a href="Desktop.dc.html" aria-label="Damar Kost" style="display: flex; align-items: center; gap: 10px; padding: 0 6px; text-decoration: none; color: {{t.sideInk}}">
+      <svg width="58" height="36" viewBox="14 4 214 128" fill="none" aria-hidden="true"><path d="M92 70 152 22 214 70" stroke="{{t.sWood}}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M110 66v58h96V66" stroke="{{t.sWood}}" stroke-width="5"></path><rect x="141" y="42" width="18" height="18" stroke="{{t.sWood}}" stroke-width="4"></rect><rect x="164" y="84" width="26" height="40" fill="{{t.sDoor}}"></rect><path d="M36 128h190" stroke="{{t.sWood}}" stroke-width="5" stroke-linecap="round"></path><path d="M62 126V54" stroke="{{t.sLeaf}}" stroke-width="4"></path><path d="M62 66c-12-6-16-18-10-28 10 4 14 16 10 28zM62 80c12-6 18-18 12-30-10 6-14 18-12 30zM62 96c-14-4-22-14-18-26 12 2 18 14 18 26zM62 108c14-2 22-12 20-24-12 2-20 12-20 24zM62 56c-6-8-6-18 0-24 6 6 6 16 0 24z" fill="{{t.sLeaf}}"></path><path d="M80 126c4-20 16-32 32-36-2 18-14 32-32 36zM40 126c-6-14-2-28 8-36 6 14 2 28-8 36z" fill="{{t.sLeaf2}}"></path></svg>
+      <span style="display: flex; flex-direction: column; gap: 4px; line-height: 1"><span style="font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; letter-spacing: 0.06em">DAMAR</span><span style="display: flex; align-items: center; gap: 6px; color: {{t.sWood}}"><span style="width: 14px; height: 1.5px; background: currentColor"></span><span style="font-family: 'Cinzel', serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em">KOST</span><span style="width: 14px; height: 1.5px; background: currentColor"></span></span></span>
+    </a>
+    <nav aria-label="Menu" style="position: relative; display: flex; flex-direction: column; gap: 4px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="7">
+        <a href="{{n.href}}" style="{{n.style}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d1}}"></path><path d="{{n.d2}}"></path></svg>{{n.label}}</a>
+      </sc-for>
+    </nav>
+    <div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; gap: 8px">
+        <div role="group" aria-label="Bahasa / Language" style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.08)">
+          <button onClick="{{setId}}" aria-pressed="{{isId}}" style="{{idStyle}}">ID</button>
+          <button onClick="{{setEn}}" aria-pressed="{{en}}" style="{{enStyle}}">EN</button>
+        </div>
+        <button onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}" style="flex: none; width: 40px; height: 38px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.08); color: {{t.sideInk}}; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if>
+          <sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        </button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,0.08)">
+        <span style="flex: none; width: 38px; height: 38px; border-radius: 999px; background: {{t.sWood}}; color: {{t.sideBg}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800">BR</span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0"><span style="font-size: 14px; font-weight: 700">Bu Ratna</span><span style="font-size: 12px; color: {{t.sideInk2}}">{{role}}</span></span>
+        <a href="DLogin.dc.html" aria-label="{{logoutLabel}}" title="{{logoutLabel}}" style="flex: none; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: {{t.sideInk}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg></a>
+      </div>
+    </div>
+    <svg width="200" height="160" viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; left: -40px; bottom: 90px; opacity: 0.08"><path d="M60 90C62 50 84 18 120 6 116 46 94 78 60 90zM60 90C46 62 22 46 0 44c6 26 30 44 60 46z" fill="#FFFFFF"></path></svg>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px clamp(16px, 3vw, 40px) 48px">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h1 style="margin: 0; font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; letter-spacing: 0.02em">{{L.title}}</h1>
+        <span style="font-size: 14px; color: {{t.ink2}}">{{L.sub}}</span>
+      </div>
+      <div role="tablist" style="display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid {{t.line}}">
+        <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+          <button role="tab" aria-selected="{{tb.on}}" onClick="{{tb.pick}}" style="{{tb.style}}">{{tb.label}}</button>
+        </sc-for>
+      </div>
+
+      <!-- Umum & tagihan -->
+      <sc-if value="{{tabGeneral}}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; align-items: start">
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.info}}</h2>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.name}}<input type="text" placeholder="Damar Kost" style="height: 46px; padding: 0 14px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box"></label>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.address}}<input type="text" placeholder="{{L.addressPh}}" style="height: 46px; padding: 0 14px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box"></label>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.bank}}<input type="text" placeholder="{{L.bankPh}}" style="height: 46px; padding: 0 14px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box"></label>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.billing}}</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 12px; background: {{t.sunken}}; border: 1px solid {{t.line}}">
+              <button onClick="{{modeEntry}}" style="{{segEntry}}">{{L.perEntry}}</button>
+              <button onClick="{{modeFixed}}" style="{{segFixed}}">{{L.fixed}}</button>
+            </div>
+            <span style="font-size: 13px; color: {{t.ink2}}; line-height: 19px">{{modeHelp}}</span>
+            <sc-if value="{{isFixed}}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span style="display: flex; flex-direction: column; gap: 2px; flex: 1"><span style="font-size: 15px">{{L.prorata}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{L.prorataNote}}</span></span>
+                <button onClick="{{toggleProrata}}" role="switch" aria-checked="{{prorata}}" aria-label="{{L.prorata}}" style="{{swProrata}}"><span style="{{knobProrata}}"></span></button>
+              </div>
+            </sc-if>
+            <div style="height: 1px; background: {{t.line}}"></div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="display: flex; flex-direction: column; gap: 2px; flex: 1"><span style="font-size: 15px; font-weight: 700">{{L.fine}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{L.fineNote}}</span></span>
+              <button onClick="{{toggleFine}}" role="switch" aria-checked="{{fine}}" aria-label="{{L.fine}}" style="{{swFine}}"><span style="{{knobFine}}"></span></button>
+            </div>
+            <sc-if value="{{fine}}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+                <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: {{t.ink2}}">{{L.grace}}<input type="text" placeholder="{{L.gracePh}}" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box; width: 100%"></label>
+                <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: {{t.ink2}}">{{L.perDay}}<input type="text" placeholder="Rp10.000" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; box-sizing: border-box; width: 100%"></label>
+              </div>
+            </sc-if>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- Kamar & harga -->
+      <sc-if value="{{tabRooms}}" hint-placeholder-val="{{ false }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; align-items: start">
+          <section style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px"><h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.rooms}}</h2><button style="height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 13px; font-weight: 700">{{L.addRoom}}</button></div>
+            <sc-for list="{{rooms}}" as="r" hint-placeholder-count="9">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid {{t.line2}}">
+                <span style="width: 48px; font-size: 15px; font-weight: 800">{{r.id}}</span>
+                <span style="flex: 1; font-size: 14px; color: {{t.ink2}}">{{r.type}}</span>
+                <span style="font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums">{{r.price}}</span>
+                <button style="height: 32px; padding: 0 10px; border-radius: 8px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 12px; font-weight: 700">{{L.edit}}</button>
+              </div>
+            </sc-for>
+            <span style="font-size: 12px; color: {{t.ink2}}; margin-top: 6px">{{L.priceNote}}</span>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px"><h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.extras}}</h2><button style="height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 13px; font-weight: 700">{{L.addExtra}}</button></div>
+            <sc-for list="{{extras}}" as="x" hint-placeholder-count="3">
+              <div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid {{t.line2}}; font-size: 14px"><span>{{x.k}}</span><span style="font-weight: 700">{{x.v}}</span></div>
+            </sc-for>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- Template WA -->
+      <sc-if value="{{tabWa}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+          <section style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <sc-for list="{{tpls}}" as="tp" hint-placeholder-count="4">
+              <button onClick="{{tp.pick}}" style="{{tp.style}}"><span style="font-size: 15px; font-weight: 700">{{tp.label}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{tp.when}}</span></button>
+            </sc-for>
+          </section>
+          <section style="flex: 2 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <label for="tpl" style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.body}}</label>
+            <textarea id="tpl" rows="8" value="{{tplText}}" onChange="{{editTpl}}" style="width: 100%; box-sizing: border-box; padding: 14px; border-radius: 14px; border: 1.5px solid {{t.field}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 15px; line-height: 22px; resize: vertical"></textarea>
+            <span style="font-size: 12px; font-weight: 600; color: {{t.ink2}}">{{L.insert}}</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{vars}}" as="v" hint-placeholder-count="6"><button onClick="{{v.add}}" style="height: 34px; padding: 0 10px; border-radius: 999px; border: 1px dashed {{t.waLine}}; background: {{t.waBg}}; color: {{t.waInk}}; font-size: 13px; font-weight: 700">+ {{v.label}}</button></sc-for></div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end"><button onClick="{{resetTpl}}" style="height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700">{{L.reset}}</button><button style="height: 42px; padding: 0 16px; border-radius: 12px; border: 0; background: {{t.accent}}; color: #FFFFFF; font-size: 14px; font-weight: 700">{{L.save}}</button></div>
+          </section>
+          <section style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 20px; background: {{t.sunken}}; border: 1px solid {{t.line}}">
+            <span style="font-size: 12px; font-weight: 700; color: {{t.ink2}}; text-transform: uppercase; letter-spacing: 0.06em">{{L.preview}}</span>
+            <div style="align-self: flex-end; max-width: 100%; padding: 12px 14px; border-radius: 16px 16px 4px 16px; background: {{t.bubble}}; color: {{t.ink}}; font-size: 14px; line-height: 21px; white-space: pre-line">{{preview}}</div>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- Tampilan & akun -->
+      <sc-if value="{{tabAccount}}" hint-placeholder-val="{{ false }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; align-items: start">
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.display}}</h2>
+            <span style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.theme}}</span>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+              <button onClick="{{pickLight}}" aria-pressed="{{isLight}}" style="{{cardLight}}">
+                <span style="display: block; height: 64px; border-radius: 10px; background: #FBF9F3; border: 1px solid #EAE4D8; position: relative; overflow: hidden"><span style="position: absolute; left: 8px; top: 8px; width: 40%; height: 10px; border-radius: 4px; background: #3B4A2C"></span><span style="position: absolute; left: 8px; top: 26px; right: 8px; height: 28px; border-radius: 6px; background: #FFFFFF; border: 1px solid #EAE4D8"></span></span>
+                <span style="font-size: 14px; font-weight: 700">{{L.light}}</span>
+              </button>
+              <button onClick="{{pickDark}}" aria-pressed="{{isDark}}" style="{{cardDark}}">
+                <span style="display: block; height: 64px; border-radius: 10px; background: #14150F; border: 1px solid #33362A; position: relative; overflow: hidden"><span style="position: absolute; left: 8px; top: 8px; width: 40%; height: 10px; border-radius: 4px; background: #9DB27A"></span><span style="position: absolute; left: 8px; top: 26px; right: 8px; height: 28px; border-radius: 6px; background: #1D1F17; border: 1px solid #33362A"></span></span>
+                <span style="font-size: 14px; font-weight: 700">{{L.darkL}}</span>
+              </button>
+            </div>
+            <span style="font-size: 13px; font-weight: 600; color: {{t.ink2}}">{{L.language}}</span>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+              <button onClick="{{setId}}" style="{{langId}}">Bahasa Indonesia</button>
+              <button onClick="{{setEn}}" style="{{langEn}}">English</button>
+            </div>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 26px; background: {{t.surface}}; border: 1px solid {{t.line}}">
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.account}}</h2>
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: {{t.sunken}}">
+              <span style="width: 44px; height: 44px; border-radius: 999px; background: {{t.soft}}; color: {{t.softInk}}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800">BR</span>
+              <span style="display: flex; flex-direction: column; gap: 2px; flex: 1"><span style="font-size: 15px; font-weight: 700">Bu Ratna</span><span style="font-size: 13px; color: {{t.ink2}}">{{L.only}}</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px"><span>{{L.password}}</span><button style="height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 13px; font-weight: 700">{{L.change}}</button></div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <span style="display: flex; flex-direction: column; gap: 2px; flex: 1"><span style="font-size: 14px">{{L.pin}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{L.pinNote}}</span></span>
+              <button onClick="{{togglePin}}" role="switch" aria-checked="{{pin}}" aria-label="{{L.pin}}" style="{{swPin}}"><span style="{{knobPin}}"></span></button>
+            </div>
+            <div style="height: 1px; background: {{t.line}}"></div>
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{L.data}}</h2>
+            <span style="font-size: 13px; color: {{t.ink2}}">{{L.backup}}</span>
+            <button style="height: 44px; border-radius: 12px; border: 1px solid {{t.btnLine}}; background: {{t.surface}}; color: {{t.ink}}; font-size: 14px; font-weight: 700">{{L.export}}</button>
+      <a href="DLogin.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 46px; border-radius: 12px; border: 1.5px solid {{dangerLine}}; background: transparent; color: {{dangerInk}}; font-size: 14px; font-weight: 700; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg>{{L.logout}}</a>
+          </section>
+        </div>
+      </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3B4A2C","options":["#3B4A2C","#2D5A85","#8A6440","#4E4870"]},"theme":{"editor":"enum","default":"light","options":["light","dark"]},"lang":{"editor":"enum","default":"id","options":["id","en"]},"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let saved = {};
+    try { saved = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; } catch (e) { saved = {}; }
+    this.state = { theme: saved.theme || null, lang: saved.lang || null, tab: 'general', mode: 'entry', fine: false, prorata: true, pin: true, tpl: 'h3', edits: {} };
+  }
+  setPref(k, v) {
+    const p = {}; p[k] = v; this.setState(p);
+    try { const cur = JSON.parse(window.localStorage.getItem('kc-prefs') || '{}') || {}; cur[k] = v; window.localStorage.setItem('kc-prefs', JSON.stringify(cur)); } catch (e) {}
+  }
+  shell(active) {
+    const dark = (this.state.theme || this.props.theme || 'light') === 'dark';
+    const en = (this.state.lang || this.props.lang || 'id') === 'en';
+    const accent = this.props.accent ?? '#3B4A2C';
+    const t = dark
+      ? { bg: '#14150F', surface: '#1D1F17', sunken: '#25281E', line: '#33362A', line2: '#2A2D22', ink: '#EDEBE2', ink2: '#ADAA9A', ink3: '#D2CFC2', soft: '#2D3522', softInk: '#C9D7A8', field: '#423F33', btnLine: '#423F33', waBg: '#252C1C', waLine: '#3E4A2E', waInk: '#C9D7A8', track: '#33362A', bubble: '#283420' }
+      : { bg: '#FBF9F3', surface: '#FFFFFF', sunken: '#FBF9F3', line: '#EAE4D8', line2: '#F0EBE1', ink: '#26251D', ink2: '#6A6656', ink3: '#45433A', soft: '#EEF0E4', softInk: '#3B4A2C', field: '#D8CFBE', btnLine: '#DDD5C6', waBg: '#F1F4EA', waLine: '#D6DEC6', waInk: '#47662A', track: '#F0EBE1', bubble: '#E6EEDA' };
+    Object.assign(t, dark ? { leaf: '#C9D7A8', leaf2: '#9DB27A', woodLine: '#C99A6E', door: '#8A6440', facade: '#1D1F17', roof: '#2A2D22', sky: '#22241B' } : { leaf: '#3B4A2C', leaf2: '#6E8450', woodLine: '#9A7149', door: '#B8926A', facade: '#FFFDF8', roof: '#F3E8D8', sky: '#F4EEE2' });
+    t.accent = accent; t.wood = dark ? '#C99A6E' : '#9A7149'; Object.assign(t, dark ? { sideBg: '#0F100B', sideInk: '#EDEBE2', sideInk2: 'rgba(237,235,226,0.62)', sideActiveBg: '#2D3522', sideActiveInk: '#C9D7A8', sLeaf: '#C9D7A8', sLeaf2: '#9DB27A', sWood: '#C99A6E', sDoor: '#8A6440' } : { sideBg: '#2F3B24', sideInk: '#F4F1E6', sideInk2: 'rgba(244,241,230,0.68)', sideActiveBg: '#FBF9F3', sideActiveInk: '#2F3B24', sLeaf: '#C9D7A8', sLeaf2: '#A9BE86', sWood: '#D9B48C', sDoor: '#B8926A' });
+    const NAV = [
+      ['home', 'Beranda', 'Home', 'Desktop.dc.html', 'M3 10.5 12 3l9 7.5', 'M5 9.5V21h14V9.5'],
+      ['rooms', 'Kamar', 'Rooms', 'DKamar.dc.html', 'M3 3h7v7H3zM14 3h7v7h-7z', 'M3 14h7v7H3zM14 14h7v7h-7z'],
+      ['bills', 'Tagihan', 'Bills', 'DTagihan.dc.html', 'M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z', 'M9 8h6M9 12h6'],
+      ['people', 'Penghuni', 'Tenants', 'DPenghuni.dc.html', 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7.5'],
+      ['exp', 'Pengeluaran', 'Expenses', 'DPengeluaran.dc.html', 'M2 6h20v12H2z', 'M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z'],
+      ['report', 'Laporan', 'Reports', 'DLaporan.dc.html', 'M4 20V10M10 20V4M16 20v-7', 'M2 20h20'],
+      ['settings', 'Pengaturan', 'Settings', 'DPengaturan.dc.html', 'M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11', 'M15 4v4M9 10v4M17 16v4']
+    ];
+    const nav = NAV.map((n) => ({ label: en ? n[2] : n[1], href: n[3], d1: n[4], d2: n[5],
+      style: 'display:flex;align-items:center;gap:12px;min-height:46px;padding:0 14px;border-radius:14px;text-decoration:none;font-size:15px;font-weight:' + (n[0] === active ? '700;background:' + t.sideActiveBg + ';color:' + t.sideActiveInk : '600;background:transparent;color:' + t.sideInk2) + ';' }));
+    const seg = (on) => 'min-height:32px;padding:4px 8px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:' + t.surface + ';color:' + t.ink + ';box-shadow:0 1px 3px rgba(0,0,0,0.12);' : 'background:transparent;color:' + t.ink2 + ';');
+    return {
+      t: t, dark: dark, en: en, nav: nav, seg: seg,
+      tr: (id, e) => (en ? e : id),
+      brandSub: en ? '9 rooms' : '9 kamar', role: en ? 'Owner' : 'Pemilik',
+      themeLabel: dark ? (en ? 'Light mode' : 'Mode terang') : (en ? 'Dark mode' : 'Mode gelap'),
+      isDark: dark, isLight: !dark, isId: !en,
+      idStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(!en), enStyle: ((on) => 'height:32px;border-radius:999px;border:0;font-size:12px;font-weight:700;' + (on ? 'background:#FBF9F3;color:#2F3B24;' : 'background:transparent;color:rgba(244,241,230,0.75);'))(en), logoutLabel: en ? 'Sign out' : 'Keluar',
+      toggleTheme: () => this.setPref('theme', dark ? 'light' : 'dark'),
+      setId: () => this.setPref('lang', 'id'), setEn: () => this.setPref('lang', 'en')
+    };
+  }
+  renderVals() {
+    const sh = this.shell('settings');
+    const t = sh.t, tr = sh.tr, s = this.state, en = sh.en;
+    const L = {
+      title: tr('Pengaturan', 'Settings'), sub: tr('Atur kos, tagihan, pesan WA, dan tampilan aplikasi', 'Set up the property, billing, WhatsApp messages and appearance'),
+      info: tr('Info kos', 'Property info'), name: tr('Nama kos', 'Property name'), address: tr('Alamat', 'Address'), addressPh: tr('[ALAMAT KOS]', '[PROPERTY ADDRESS]'),
+      bank: tr('Rekening untuk pembayaran', 'Bank account for payments'), bankPh: tr('[BANK & NO. REKENING] a.n. [NAMA]', '[BANK & ACCOUNT NO.] under [NAME]'),
+      billing: tr('Cara menagih', 'Billing'), perEntry: tr('Per tanggal masuk', 'By move-in date'), fixed: tr('Serentak', 'Same date for all'),
+      prorata: tr('Prorata bulan pertama', 'Pro-rate the first month'), prorataNote: tr('Masuk tgl 15 → bayar setengah bulan', 'Move in on the 15th → pay half a month'),
+      fine: tr('Denda telat', 'Late fee'), fineNote: tr('Ditambahkan otomatis ke tagihan', 'Added to the bill automatically'), grace: tr('Masa tenggang', 'Grace period'), gracePh: tr('3 hari', '3 days'), perDay: tr('Denda per hari', 'Fee per day'),
+      rooms: tr('Kamar & harga', 'Rooms & prices'), addRoom: tr('+ Kamar', '+ Room'), edit: tr('Ubah', 'Edit'), priceNote: tr('Perubahan harga berlaku mulai tagihan bulan berikutnya.', 'Price changes apply from next month’s bill.'),
+      extras: tr('Biaya tambahan', 'Extra charges'), addExtra: tr('+ Biaya', '+ Charge'),
+      body: tr('Isi pesan', 'Message'), insert: tr('Ketuk untuk menyisipkan data otomatis', 'Click to insert auto-filled data'), reset: tr('Kembalikan awal', 'Reset'), save: tr('Simpan', 'Save'), preview: tr('Pratinjau · ke Sinta, Kamar 201', 'Preview · to Sinta, Room 201'),
+      display: tr('Tampilan', 'Appearance'), theme: tr('Tema', 'Theme'), light: tr('Terang', 'Light'), darkL: tr('Gelap', 'Dark'), language: tr('Bahasa', 'Language'),
+      account: tr('Akun', 'Account'), only: tr('Pemilik · satu-satunya pengguna', 'Owner · the only user'), password: tr('Kata sandi', 'Password'), change: tr('Ganti', 'Change'),
+      pin: tr('Kunci dengan PIN', 'Lock with PIN'), pinNote: tr('Minta PIN saat aplikasi dibuka', 'Ask for a PIN when the app opens'),
+      data: tr('Data', 'Data'), backup: tr('Backup otomatis setiap hari. Anda juga bisa mengunduh semua data kapan saja.', 'Backed up automatically every day. You can also download all your data at any time.'), export: tr('Ekspor semua data (Excel)', 'Export all data (Excel)'), logout: tr('Keluar', 'Sign out')
+    };
+    const tabDefs = [['general', tr('Umum & tagihan', 'General & billing')], ['rooms', tr('Kamar & harga', 'Rooms & prices')], ['wa', tr('Template WA', 'WhatsApp templates')], ['account', tr('Tampilan & akun', 'Appearance & account')]];
+    const tabs = tabDefs.map((d) => ({ label: d[1], on: s.tab === d[0], pick: () => this.setState({ tab: d[0] }),
+      style: 'height:44px;padding:0 14px;border:0;background:none;font-size:14px;font-weight:700;margin-bottom:-1px;border-bottom:2.5px solid ' + (s.tab === d[0] ? t.accent : 'transparent') + ';color:' + (s.tab === d[0] ? t.ink : t.ink2) + ';' }));
+    const sw = (on) => 'flex:none;position:relative;width:52px;height:32px;border-radius:999px;border:0;padding:0;background:' + (on ? t.accent : t.field) + ';';
+    const knob = (on) => 'position:absolute;top:4px;left:' + (on ? '24px' : '4px') + ';width:24px;height:24px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:left 160ms ease-out;';
+    const std = tr('Standar', 'Standard'), fl = tr(' · Lantai ', ' · Floor ');
+    const rooms = ['101', '102', '103', '104', '201', '202', '203', '204', '205'].map((id) => ({ id: id, type: (id[0] === '1' ? std : 'AC') + fl + id[0], price: id[0] === '1' ? 'Rp1.200.000' : 'Rp1.500.000' }));
+    const extras = [[tr('Parkir motor', 'Motorbike parking'), tr('Rp50.000 / bulan', 'Rp50.000 / month')], [tr('Tamu menginap', 'Overnight guest'), tr('Rp25.000 / malam', 'Rp25.000 / night')], ['Laundry', 'Rp7.000 / kg']].map((x) => ({ k: x[0], v: x[1] }));
+    const D = en ? {
+      h3: 'Hi {name}, hope you are well.\nJust a reminder: rent for Room {room} for {month} is {amount}, due {due_date}.\nPlease transfer to {account}. Thank you!\n— Damar Kost',
+      h0: 'Hi {name}, rent for Room {room} ({amount}) is due today.\nPlease transfer to {account} and send the proof here. Thank you!\n— Damar Kost',
+      late: 'Hi {name}, rent for Room {room} for {month} ({amount}) is past due ({due_date}).\nPlease arrange payment, or let us know if there is a problem. Thank you.\n— Damar Kost',
+      receipt: 'Hi {name}, thank you.\nWe have received your rent for Room {room} for {month}: {amount}, on {paid_date}.\n— Damar Kost'
+    } : {
+      h3: 'Halo Kak {nama}, semoga sehat selalu.\nSekadar mengingatkan, sewa Kamar {kamar} bulan {bulan} sebesar {nominal} jatuh tempo {jatuh_tempo}.\nTransfer ke {rekening}. Terima kasih!\n— Damar Kost',
+      h0: 'Halo Kak {nama}, hari ini jatuh tempo sewa Kamar {kamar} sebesar {nominal}.\nBisa transfer ke {rekening}, lalu kirim bukti di sini ya. Terima kasih!\n— Damar Kost',
+      late: 'Halo Kak {nama}, sewa Kamar {kamar} bulan {bulan} sebesar {nominal} sudah lewat jatuh tempo ({jatuh_tempo}).\nMohon dibantu pembayarannya, atau kabari kami bila ada kendala. Terima kasih.\n— Damar Kost',
+      receipt: 'Halo Kak {nama}, terima kasih.\nPembayaran sewa Kamar {kamar} bulan {bulan} sebesar {nominal} sudah kami terima pada {tanggal_bayar}.\n— Damar Kost'
+    };
+    const ekey = (en ? 'en-' : 'id-') + s.tpl;
+    const tplText = s.edits[ekey] ?? D[s.tpl];
+    const setTpl = (v) => { const e = Object.assign({}, this.state.edits); e[ekey] = v; this.setState({ edits: e }); };
+    const sample = { nama: 'Sinta', name: 'Sinta', kamar: '201', room: '201', bulan: 'November', month: 'November', nominal: 'Rp1.500.000', amount: 'Rp1.500.000', jatuh_tempo: '10 Nov', due_date: '10 Nov', rekening: tr('[BANK & NO. REKENING] a.n. [NAMA PEMILIK]', '[BANK & ACCOUNT NO.] under [OWNER NAME]'), account: '[BANK & ACCOUNT NO.] under [OWNER NAME]', tanggal_bayar: '15 Nov 2026', paid_date: '15 Nov 2026' };
+    const tplDefs = [['h3', tr('Pengingat', 'Reminder'), tr('3 hari sebelum', '3 days before')], ['h0', tr('Hari H', 'Due day'), tr('Saat jatuh tempo', 'On the due date')], ['late', tr('Telat', 'Overdue'), tr('Lewat jatuh tempo', 'After the due date')], ['receipt', tr('Kuitansi', 'Receipt'), tr('Setelah lunas', 'After payment')]];
+    const tpls = tplDefs.map((d) => ({ label: d[1], when: d[2], pick: () => this.setState({ tpl: d[0] }),
+      style: 'display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 14px;border-radius:14px;text-align:left;color:' + t.ink + ';border:1px solid ' + (s.tpl === d[0] ? t.accent : 'transparent') + ';background:' + (s.tpl === d[0] ? t.soft : 'transparent') + ';' }));
+    const varDefs = en ? [['Name', 'name'], ['Room', 'room'], ['Month', 'month'], ['Amount', 'amount'], ['Due date', 'due_date'], ['Account', 'account']] : [['Nama', 'nama'], ['Kamar', 'kamar'], ['Bulan', 'bulan'], ['Nominal', 'nominal'], ['Jatuh tempo', 'jatuh_tempo'], ['Rekening', 'rekening']];
+    const choice = (on) => 'display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:14px;text-align:left;color:' + t.ink + ';background:' + t.surface + ';border:2px solid ' + (on ? t.accent : t.line) + ';';
+    const langBtn = (on) => 'height:46px;border-radius:12px;font-size:14px;font-weight:700;' + (on ? 'background:' + t.accent + ';color:#FFFFFF;border:1px solid ' + t.accent + ';' : 'background:' + t.surface + ';color:' + t.ink + ';border:1px solid ' + t.btnLine + ';');
+    return Object.assign(sh, {
+      L: L, tabs: tabs, dangerLine: sh.dark ? '#5E3428' : '#E3B4A6', dangerInk: sh.dark ? '#F2A58E' : '#A13A20', rooms: rooms, extras: extras,
+      tabGeneral: s.tab === 'general', tabRooms: s.tab === 'rooms', tabWa: s.tab === 'wa', tabAccount: s.tab === 'account',
+      isFixed: s.mode === 'fixed', segEntry: sh.seg(s.mode === 'entry'), segFixed: sh.seg(s.mode === 'fixed'),
+      modeEntry: () => this.setState({ mode: 'entry' }), modeFixed: () => this.setState({ mode: 'fixed' }),
+      modeHelp: s.mode === 'entry' ? tr('Tiap penghuni ditagih di tanggal yang sama dengan tanggal ia masuk (mis. masuk 10 Sep → jatuh tempo tiap tgl 10).', 'Each tenant is billed on the same day they moved in (e.g. moved in 10 Sep → due every 10th).') : tr('Semua penghuni ditagih di tanggal yang sama setiap bulan (tgl 1).', 'All tenants are billed on the same date every month (the 1st).'),
+      fine: s.fine, prorata: s.prorata, pin: s.pin,
+      toggleFine: () => this.setState({ fine: !s.fine }), toggleProrata: () => this.setState({ prorata: !s.prorata }), togglePin: () => this.setState({ pin: !s.pin }),
+      swFine: sw(s.fine), knobFine: knob(s.fine), swProrata: sw(s.prorata), knobProrata: knob(s.prorata), swPin: sw(s.pin), knobPin: knob(s.pin),
+      tpls: tpls, tplText: tplText, preview: tplText.replace(/\{(\w+)\}/g, (m, k) => sample[k] ?? m),
+      editTpl: (e) => setTpl(e.target.value),
+      resetTpl: () => { const e = Object.assign({}, s.edits); delete e[ekey]; this.setState({ edits: e }); },
+      vars: varDefs.map((v) => ({ label: v[0], add: () => setTpl(tplText + ' {' + v[1] + '}') })),
+      cardLight: choice(!sh.dark), cardDark: choice(sh.dark),
+      pickLight: () => this.setPref('theme', 'light'), pickDark: () => this.setPref('theme', 'dark'),
+      langId: langBtn(!en), langEn: langBtn(en)
+    });
+  }
+}
+</script>
+</body>
+</html>

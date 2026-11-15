@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Damar Kost">
+  <title>Damar Kost — ikon aplikasi</title>
+  <rect width="512" height="512" rx="112" fill="#3B4A2C"/>
+  <g transform="translate(66 134) scale(1.6)">
+    <path d="M92 70 152 22 214 70" fill="none" stroke="#E2C7A4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M110 66v58h96V66" fill="none" stroke="#E2C7A4" stroke-width="5"/>
+    <rect x="142" y="44" width="16" height="16" fill="none" stroke="#E2C7A4" stroke-width="4"/>
+    <rect x="166" y="86" width="22" height="38" fill="#C99A6E"/>
+    <path d="M40 128h184" stroke="#E2C7A4" stroke-width="5" stroke-linecap="round"/>
+    <path d="M62 126V60" stroke="#C9D7A8" stroke-width="4"/>
+    <path d="M62 66c-12-6-16-18-10-28 10 4 14 16 10 28zM62 80c12-6 18-18 12-30-10 6-14 18-12 30zM62 96c-14-4-22-14-18-26 12 2 18 14 18 26zM62 108c14-2 22-12 20-24-12 2-20 12-20 24zM62 56c-6-8-6-18 0-24 6 6 6 16 0 24z" fill="#C9D7A8"/>
+    <path d="M80 126c4-20 16-32 32-36-2 18-14 32-32 36zM40 126c-6-14-2-28 8-36 6 14 2 28-8 36z" fill="#9DB27A"/>
+  </g>
+</svg>
