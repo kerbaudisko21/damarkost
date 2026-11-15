@@ -18,3 +18,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Kunci rahasia lokal (VAPID private key, dll.)
+.secrets/

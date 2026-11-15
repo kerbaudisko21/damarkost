@@ -6,7 +6,7 @@
 1. Salin `app/.env.example` → `app/.env.local` (file ini sudah diabaikan git).
 2. Dashboard Supabase → **Project Settings → API**:
    - `VITE_SUPABASE_URL` = *Project URL*
-   - `VITE_SUPABASE_ANON_KEY` = kunci **anon / publishable** (aman untuk browser karena data dilindungi RLS)
+   - `VITE_SUPABASE_PUBLISHABLE_KEY` = kunci **publishable** (`sb_publishable_...`; proyek lama: `VITE_SUPABASE_ANON_KEY`). Aman untuk browser karena data dilindungi RLS.
 3. **Jangan** pakai `service_role` / secret key di file ini.
 
 ### 1b. Isi juga di Vercel (untuk damarkost.vercel.app)
@@ -15,7 +15,7 @@ Variabel `VITE_*` dibaca saat **build**, jadi harus ada di Vercel juga. Pilih sa
 - **CLI** (dari folder `app/`, tiap perintah akan meminta nilai — ketik/tempel sendiri):
   ```bash
   vercel env add VITE_SUPABASE_URL production
-  vercel env add VITE_SUPABASE_ANON_KEY production
+  vercel env add VITE_SUPABASE_PUBLISHABLE_KEY production
   vercel env add VITE_VAPID_PUBLIC_KEY production
   vercel deploy --prod
   ```
@@ -40,10 +40,8 @@ select vault.create_secret('<service_role key>', 'service_role_key');
 ```
 
 ## 5. Kunci VAPID untuk notifikasi push
-Di komputer:
-```bash
-npx web-push generate-vapid-keys
-```
+Sudah dibuat (16 Nov 2026) dan disimpan di `.secrets/vapid-keys.txt` (tidak ikut git). Public key sudah ada di `app/.env.local`.
+Bila perlu membuat ulang: `npx web-push generate-vapid-keys` (semua HP harus mengaktifkan notifikasi ulang).
 - *Public key* → `VITE_VAPID_PUBLIC_KEY` di `app/.env.local`
 - Simpan sebagai secret Edge Function:
 ```bash
