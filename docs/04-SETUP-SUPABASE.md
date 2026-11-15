@@ -9,6 +9,18 @@
    - `VITE_SUPABASE_ANON_KEY` = kunci **anon / publishable** (aman untuk browser karena data dilindungi RLS)
 3. **Jangan** pakai `service_role` / secret key di file ini.
 
+### 1b. Isi juga di Vercel (untuk damarkost.vercel.app)
+Variabel `VITE_*` dibaca saat **build**, jadi harus ada di Vercel juga. Pilih salah satu:
+- **Dashboard:** Vercel → proyek `damarkost` → Settings → Environment Variables → tambahkan 3 variabel di atas untuk *Production* (dan *Preview* bila perlu).
+- **CLI** (dari folder `app/`, tiap perintah akan meminta nilai — ketik/tempel sendiri):
+  ```bash
+  vercel env add VITE_SUPABASE_URL production
+  vercel env add VITE_SUPABASE_ANON_KEY production
+  vercel env add VITE_VAPID_PUBLIC_KEY production
+  vercel deploy --prod
+  ```
+> Hati-hati: `vercel env pull` akan **menimpa** `app/.env.local`. Simpan isinya dulu bila sudah diisi manual.
+
 ## 2. Jalankan migrasi database
 Dashboard → **SQL Editor** → jalankan isi file berurutan:
 1. `supabase/migrations/20261116000000_init.sql` — tabel, RLS, anti-bentrok, fungsi tagihan, bucket foto.
