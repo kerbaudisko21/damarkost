@@ -219,7 +219,8 @@ a { color: inherit; }
 
 /* ===== Gerak (halus, cepat; mati otomatis bila "Kurangi Gerakan") ===== */
 :root { --ease-out: cubic-bezier(0.22, 1, 0.36, 1); --ease-spring: cubic-bezier(0.32, 0.72, 0, 1); }
-.page > main { animation: page-in 260ms var(--ease-out) both; }
+/* 'backwards' (bukan 'both'): setelah selesai, transform dilepas → pop-up fixed tetap menempel ke layar */
+.page > main { animation: page-in 260ms var(--ease-out) backwards; }
 .rise { animation: item-in 320ms var(--ease-out) both; animation-delay: calc(min(var(--i, 0), 8) * 35ms); }
 .win { animation: win-in 360ms var(--ease-spring) both; animation-delay: calc(var(--i, 0) * 30ms); transition: transform 140ms var(--ease-out); }
 .win:active { transform: scale(0.94); }
@@ -274,3 +275,5 @@ a { color: inherit; }
 .pw input { padding-right: 50px; }
 .pw-eye { position: absolute; right: 4px; top: 4px; width: 40px; height: 40px; border: 0; border-radius: 10px; background: none; color: var(--ink2); display: grid; place-items: center; }
 .sync-bar { position: fixed; left: 12px; right: 12px; top: calc(env(safe-area-inset-top) + 8px); z-index: 70; display: flex; align-items: center; gap: 10px; animation: item-in 220ms var(--ease-out) both; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+
+html.sheet-open { overflow: hidden; }

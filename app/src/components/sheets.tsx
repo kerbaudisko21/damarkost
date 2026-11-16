@@ -181,6 +181,7 @@ function TenantSheet({ roomId, onClose }: { roomId?: string; onClose: () => void
     let d = today
     const r = data.rooms.find((x) => x.id === roomId0)
     if (r?.repairUntil && r.repairUntil >= d) d = addDays(r.repairUntil, 1)
+    for (const l of data.leases) if (l.roomId === roomId0 && l.endDate && l.endDate > d) d = l.endDate
     for (const b of data.bookings.filter((x) => x.roomId === roomId0 && x.status !== 'cancelled' && x.status !== 'out').sort((x, y) => x.checkIn.localeCompare(y.checkIn)))
       if (b.checkIn <= d && b.checkOut > d) d = b.checkOut
     return d
@@ -196,7 +197,9 @@ function TenantSheet({ roomId, onClose }: { roomId?: string; onClose: () => void
   const [method, setMethod] = useState<PayMethod>('transfer')
   const clash = data.bookings.find((b) => b.roomId === room && b.status !== 'cancelled' && b.status !== 'out' && b.checkOut > start)
   const repairBlock = !!sel?.repairUntil && sel.repairUntil >= start
-  const valid = name.trim().length > 1 && phone.replace(/\D/g, '').length >= 9 && !!sel && parseRupiah(rentText) > 0 && !clash && !repairBlock
+  // Sewa lama di kamar yang sama tidak boleh tumpang tindih (database juga menolaknya).
+  const prevLease = data.leases.find((l) => l.roomId === room && (!l.endDate || l.endDate > start))
+  const valid = !!start && name.trim().length > 1 && phone.replace(/\D/g, '').length >= 9 && !!sel && parseRupiah(rentText) > 0 && !clash && !repairBlock && !prevLease
   const save = () => {
     if (!sel) return
     const rent = parseRupiah(rentText)
@@ -220,6 +223,7 @@ function TenantSheet({ roomId, onClose }: { roomId?: string; onClose: () => void
             <label className="field">{t('tenant.rent')}<input inputMode="numeric" value={rentText} onChange={(e) => setRentText(rp(parseRupiah(e.target.value)))} /></label>
           </div>
           {clash && <div className="hint warn">{t('tenant.clash', { name: clash.guestName, from: fmtDate(clash.checkIn, lang), to: fmtDate(clash.checkOut, lang) })}</div>}
+          {prevLease?.endDate && <div className="hint warn">{t('tenant.leaseClash', { date: fmtDate(prevLease.endDate, lang) })}</div>}
           {repairBlock && sel && <div className="hint warn">{t('tenant.repair', { date: fmtDate(addDays(sel.repairUntil!, 1), lang) })}</div>}
           <label className="field">{t('tenant.deposit')}<input inputMode="numeric" value={depositText} onChange={(e) => setDepositText(rp(parseRupiah(e.target.value)))} /><span className="sub small" style={{ fontWeight: 500 }}>{t('tenant.depositNote')}</span></label>
           <div className="stack-lg" style={{ padding: 14, borderRadius: 16, background: 'var(--sunken)' }}>

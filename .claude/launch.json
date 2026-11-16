@@ -4,8 +4,28 @@
     {
       "name": "damar-kost",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["app/node_modules/vite/bin/vite.js", "app", "--port", "5174", "--strictPort"],
+      "runtimeArgs": [
+        "app/node_modules/vite/bin/vite.js",
+        "app",
+        "--port",
+        "5174",
+        "--strictPort"
+      ],
       "port": 5174
+    },
+    {
+      "name": "damar-kost-demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "app/node_modules/vite/bin/vite.js",
+        "app",
+        "--mode",
+        "demo",
+        "--port",
+        "5175",
+        "--strictPort"
+      ],
+      "port": 5175
     }
   ]
 }

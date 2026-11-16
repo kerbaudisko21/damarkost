@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowDown, Check, MoreHorizontal, PlusSquare, Share } from 'lucide-react'
 import { usePrefs } from '../lib/prefs'
-import { Sheet } from './ui'
+import { Overlay, Sheet } from './ui'
 import { LogoMark } from './Logo'
 
 interface BeforeInstallPromptEvent extends Event {
@@ -71,9 +71,9 @@ export function InstallGuide({ open, onClose }: { open: boolean; onClose: () => 
         <button className="btn primary block" onClick={onClose}>{t('install.ok')}</button>
       </Sheet>
       {open && isIOS() && !other && (
-        <div aria-hidden="true" style={{ position: 'fixed', left: '50%', transform: 'translateX(-50%)', bottom: 'calc(env(safe-area-inset-bottom) + 2px)', zIndex: 31, color: '#fff', animation: 'nudge 1.2s ease-in-out infinite' }}>
+        <Overlay><div aria-hidden="true" style={{ position: 'fixed', left: '50%', transform: 'translateX(-50%)', bottom: 'calc(env(safe-area-inset-bottom) + 2px)', zIndex: 31, color: '#fff', animation: 'nudge 1.2s ease-in-out infinite' }}>
           <ArrowDown size={34} strokeWidth={3} />
-        </div>
+        </div></Overlay>
       )}
     </>
   )

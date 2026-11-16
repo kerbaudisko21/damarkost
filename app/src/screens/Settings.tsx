@@ -34,6 +34,10 @@ function RoomEditSheet({ roomId, onClose }: { roomId: string; onClose: () => voi
   const tenant = lease ? data.tenants.find((x) => x.id === lease.tenantId) : undefined
   const sameType = data.rooms.filter((r) => r.id !== room.id)
   const nextMonth = monthName(addMonths(periodOf(today), 1), lang)
+  // Jenis sewa tidak boleh mengubah nasib penghuni/tamu yang sudah ada tanpa disadari.
+  const futureBookings = data.bookings.filter((b) => b.roomId === room.id && (b.status === 'booked' || b.status === 'in') && b.checkOut > today).length
+  const blockDaily = mode === 'daily' && !!lease
+  const blockMonthly = mode === 'monthly' && futureBookings > 0
   const money = (v: string) => (parseRupiah(v) ? rp(parseRupiah(v)) : '')
 
   const save = () => {
@@ -55,7 +59,7 @@ function RoomEditSheet({ roomId, onClose }: { roomId: string; onClose: () => voi
       <div className="stack-lg"><span className="field">{t('room.mode')}</span>
         <Segmented value={mode} onChange={setMode} options={MODES.map((m) => ({ value: m, label: t(`mode.${m}`) }))} />
       </div>
-      <div className="grid2">
+      <div className={mode === 'both' ? 'grid2' : 'stack-lg'}>
         {mode !== 'daily' && <label className="field">{t('room.monthly')}<input inputMode="numeric" placeholder="Rp0" value={monthly} onChange={(e) => setMonthly(money(e.target.value))} /></label>}
         {mode !== 'monthly' && <label className="field">{t('room.nightly')}<input inputMode="numeric" placeholder="Rp0" value={nightly} onChange={(e) => setNightly(money(e.target.value))} /></label>}
       </div>
@@ -68,8 +72,10 @@ function RoomEditSheet({ roomId, onClose }: { roomId: string; onClose: () => voi
           <Switch on={applyTenant} onChange={setApplyTenant} label={t('room.applyTenant', { name: tenant.name })} />
         </div>
       )}
+      {blockDaily && tenant && <div className="hint warn">{t('room.hasTenant', { name: tenant.name })}</div>}
+      {blockMonthly && <div className="hint warn">{t('room.hasBookings', { n: futureBookings })}</div>}
       <span className="sub small">{t('room.priceNote')}</span>
-      <button className="btn primary block" onClick={save}>{t('common.save')}</button>
+      <button className="btn primary block" disabled={blockDaily || blockMonthly} onClick={save}>{t('common.save')}</button>
     </Sheet>
   )
 }

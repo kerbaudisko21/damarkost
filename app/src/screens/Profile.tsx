@@ -4,7 +4,7 @@ import { MessageCircle, Phone, Wallet } from 'lucide-react'
 import { useStore } from '../data/store'
 import { usePrefs } from '../lib/prefs'
 import { invoiceStatus, roomView } from '../domain/billing'
-import { fmtDate, monthName } from '../lib/dates'
+import { addDays, fmtDate, monthName } from '../lib/dates'
 import { initials, parseRupiah, rp } from '../lib/format'
 import { roomChip } from '../lib/labels'
 import { waLink } from '../lib/wa'
@@ -38,7 +38,11 @@ export default function ProfileScreen() {
   const owing = history.filter((h) => h.st.state !== 'paid').reduce((a, h) => a + h.st.remaining, 0)
   const current = history[0]
 
+  // Database: tanggal keluar harus > tanggal masuk. Check-out mencatat kepergian yang sudah terjadi (<= hari ini).
+  const minOut = addDays(lease.startDate, 1)
+  const dateOk = !!coDate && coDate >= minOut && coDate <= today
   const confirmCheckout = () => {
+    if (!dateOk) return
     checkout(lease.id, coDate, mode === 'part' ? parseRupiah(cut) : 0, reason)
     setCo(false)
     toast(t('checkout.done'))
@@ -98,7 +102,8 @@ export default function ProfileScreen() {
 
       <Sheet open={co} onClose={() => setCo(false)} label={t('checkout.title', { name: tenant.name.split(' ')[0] })}>
         <div className="stack"><h2>{t('checkout.title', { name: tenant.name.split(' ')[0] })}</h2><span className="sub">{t('checkout.sub', { code: room.code })}</span></div>
-        <label className="field">{t('checkout.date')}<input type="date" value={coDate} onChange={(e) => setCoDate(e.target.value)} /></label>
+        <label className="field">{t('checkout.date')}<input type="date" value={coDate} min={minOut} max={today} onChange={(e) => setCoDate(e.target.value)} /></label>
+        {!dateOk && <div className="hint warn">{t('checkout.badDate', { start: fmtDate(lease.startDate, lang, true) })}</div>}
         <div className="stack-lg">
           <span className="field">{t('tenant.deposit')} {rp(lease.deposit)}</span>
           <Choices value={mode} onChange={setMode} options={[{ value: 'full', label: t('checkout.full') }, { value: 'part', label: t('checkout.part') }]} />
@@ -110,7 +115,7 @@ export default function ProfileScreen() {
           </div>
         )}
         {owing > 0 && <div className="hint warn">{t('checkout.owing', { amount: rp(owing) })}</div>}
-        <button className="btn block" style={{ background: 'var(--bad)', borderColor: 'var(--bad)', color: '#fff' }} onClick={confirmCheckout}>{t('checkout.confirm')}</button>
+        <button className="btn block" style={{ background: 'var(--bad)', borderColor: 'var(--bad)', color: '#fff' }} disabled={!dateOk} onClick={confirmCheckout}>{t('checkout.confirm')}</button>
       </Sheet>
     </main>
   )

@@ -1,8 +1,23 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft } from 'lucide-react'
 import { usePrefs } from '../lib/prefs'
 import { LogoMark } from './Logo'
+
+/** Pasang overlay langsung di <body>: elemen fixed di dalam halaman yang sedang beranimasi
+ *  (transform) akan menempel ke halaman, bukan ke layar — itu sebabnya form dulu muncul di paling bawah. */
+export function Overlay({ children }: { children: ReactNode }) {
+  return createPortal(children, document.body)
+}
+
+/** Jumlah lembar yang terbuka; halaman di belakangnya dikunci agar tidak ikut tergulir. */
+let openSheets = 0
+function lockScroll() {
+  openSheets++
+  document.documentElement.classList.add('sheet-open')
+  return () => { openSheets = Math.max(0, openSheets - 1); if (!openSheets) document.documentElement.classList.remove('sheet-open') }
+}
 
 /* ---------- Lembar bawah ---------- */
 export function Sheet({ open, onClose, children, label }: { open: boolean; onClose: () => void; children: ReactNode; label: string }) {
@@ -21,15 +36,18 @@ export function Sheet({ open, onClose, children, label }: { open: boolean; onClo
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open, requestClose])
+  useEffect(() => (open ? lockScroll() : undefined), [open])
   if (!open) return null
   return (
-    <div className="sheet-wrap" role="dialog" aria-modal="true" aria-label={label}>
-      <button className={'sheet-backdrop' + (closing ? ' out' : '')} aria-label="×" onClick={requestClose} />
-      <div className={'sheet' + (closing ? ' out' : '')}>
-        <div className="sheet-handle" />
-        {children}
+    <Overlay>
+      <div className="sheet-wrap" role="dialog" aria-modal="true" aria-label={label}>
+        <button className={'sheet-backdrop' + (closing ? ' out' : '')} aria-label="×" onClick={requestClose} />
+        <div className={'sheet' + (closing ? ' out' : '')}>
+          <div className="sheet-handle" />
+          {children}
+        </div>
       </div>
-    </div>
+    </Overlay>
   )
 }
 

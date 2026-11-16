@@ -134,15 +134,19 @@ export function StoreProvider({ children, cloud, ownerName }: { children: ReactN
   const reload = useCallback(() => setReloadKey((k) => k + 1), [])
   const clearSyncError = useCallback(() => setSyncError(null), [])
 
-  /** Jalankan penulisan ke Supabase berurutan; bila ada yang gagal → tampilkan pesan & muat ulang. */
+  /**
+   * Semua penulisan ke Supabase lewat satu antrean → tiba di server sesuai urutan di layar
+   * (mis. tambah penghuni lalu langsung catat bayar). Bila ada yang gagal → pesan & muat ulang.
+   */
+  const queue = useRef<Promise<void>>(Promise.resolve())
   const persist = useCallback((...ops: (() => Res)[]) => {
     if (!sb) return
-    ;(async () => {
+    queue.current = queue.current.then(async () => {
       for (const op of ops) {
         const { error } = await op()
         if (error) { setSyncError(error.message); reload(); return }
       }
-    })()
+    }).catch((e: unknown) => { setSyncError((e as Error).message); reload() })
   }, [sb, reload])
 
   const update = useCallback((fn: (d: AppData) => AppData) => setData((d) => (sb ? fn(d) : withInvoices(fn(d), today))), [sb, today])

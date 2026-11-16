@@ -205,7 +205,10 @@ function NewBooking({ defaultRoom, onDone, addBooking }: { defaultRoom?: string;
   const total = n * rate, netAmt = total - Math.round((total * (src?.commissionPct ?? 0)) / 100)
   const conflict = useMemo(() => (room && n > 0 ? findConflict(data.bookings, { roomId: room.id, checkIn, checkOut }) : undefined), [data.bookings, room, checkIn, checkOut, n])
   const repairClash = room?.repairUntil && checkIn <= room.repairUntil
-  const valid = !!room && n > 0 && !conflict && !repairClash && guestName.trim().length > 1 && rate > 0
+  // Kamar "Keduanya" yang sedang disewa bulanan tidak bisa sekaligus dipakai tamu.
+  const lease = room && n > 0 ? data.leases.find((l) => l.roomId === room.id && l.startDate < checkOut && (!l.endDate || l.endDate > checkIn)) : undefined
+  const leaseName = lease ? data.tenants.find((x) => x.id === lease.tenantId)?.name ?? '' : ''
+  const valid = !!room && n > 0 && !conflict && !repairClash && !lease && guestName.trim().length > 1 && rate > 0
   const save = () => {
     if (!room) return
     const res = addBooking({ roomId: room.id, guestName: guestName.trim(), guestPhone: guestPhone.trim(), guests, checkIn, checkOut, rate, sourceId, paid, dpAmount: paid === 'dp' ? rate : 0 })
@@ -224,6 +227,7 @@ function NewBooking({ defaultRoom, onDone, addBooking }: { defaultRoom?: string;
       </div>
       {n <= 0 ? <div className="hint warn">{t('hs.invalid')}</div>
         : conflict ? <div className="hint warn">{t('hs.conflict', { name: conflict.guestName, from: fmtDate(conflict.checkIn, lang), to: fmtDate(conflict.checkOut, lang) })}</div>
+        : lease ? <div className="hint warn">{t('hs.leaseClash', { name: leaseName })}</div>
         : repairClash ? <div className="hint warn">{t('rooms.repairUntil', { note: room?.repairNote ?? t('state.repair'), date: fmtDate(addDays(room!.repairUntil!, 1), lang) })}</div>
         : room && <div className="hint">{t('hs.free', { code: room.code })}</div>}
       <label className="field">{t('hs.guest')}<input value={guestName} onChange={(e) => setName(e.target.value)} placeholder={t('hs.guestPh')} /></label>

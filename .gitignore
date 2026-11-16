@@ -8,6 +8,7 @@ dev-dist/
 .env
 .env.*
 !.env.example
+!.env.demo
 supabase/.temp/
 supabase/.branches/
 

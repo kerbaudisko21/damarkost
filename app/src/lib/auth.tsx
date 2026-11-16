@@ -17,10 +17,13 @@ interface Auth {
 
 const Ctx = createContext<Auth | null>(null)
 
+/** Tautan "lupa kata sandi" membawa #...type=recovery; dibaca saat modul dimuat, sebelum hash dibersihkan. */
+const OPENED_FROM_RECOVERY = typeof window !== 'undefined' && /type=recovery/.test(window.location.hash)
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(!!supabase)
-  const [recovery, setRecovery] = useState(false)
+  const [recovery, setRecovery] = useState(OPENED_FROM_RECOVERY)
 
   useEffect(() => {
     if (!supabase) return

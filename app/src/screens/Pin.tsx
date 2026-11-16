@@ -3,6 +3,7 @@ import { Delete } from 'lucide-react'
 import { useStore } from '../data/store'
 import { usePrefs } from '../lib/prefs'
 import { LogoMark } from '../components/Logo'
+import { Overlay } from '../components/ui'
 
 /** Hash PIN dengan SHA-256 + garam tetap per perangkat (cukup untuk kunci layar; bukan pengganti login). */
 export async function hashPin(pin: string): Promise<string> {
@@ -60,7 +61,7 @@ export function PinSetup({ onDone }: { onDone: (hash: string | null) => void }) 
   const [first, setFirst] = useState<string | null>(null)
   const [error, setError] = useState('')
   return (
-    <>
+    <Overlay>
       <Keypad title={t('set.pinSet')} status={first ? t('pin.confirm') : t('pin.create')} error={error} onComplete={async (pin) => {
         if (!first) { setFirst(pin); setError(''); return }
         if (pin !== first) { setFirst(null); setError(t('pin.mismatch')); return }
@@ -68,6 +69,6 @@ export function PinSetup({ onDone }: { onDone: (hash: string | null) => void }) 
         onDone(await hashPin(pin))
       }} />
       <button className="btn" style={{ position: 'fixed', zIndex: 51, left: '50%', transform: 'translateX(-50%)', bottom: 'calc(env(safe-area-inset-bottom) + 24px)', background: 'transparent', color: '#F4F1E6', border: 0 }} onClick={() => onDone(null)}>{t('common.cancel')}</button>
-    </>
+    </Overlay>
   )
 }
